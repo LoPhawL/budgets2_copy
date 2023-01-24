@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { FirestoreService } from './_common/_services/Firestore.service';
 
 @Component({
   selector: 'app-root',
@@ -10,26 +9,19 @@ import { collection, getDocs, getFirestore } from "firebase/firestore";
 })
 export class AppComponent {
   title = 'budgets';
-  categoriesList: any = [];
+
+  constructor(private _fsService: FirestoreService) {}
 
   async ngOnInit() {
-    const firebaseConfig = {
-      apiKey: "AIzaSyD7amcWHOXMwWBlhWuCYua1f61zzZAGKfA",
-      authDomain: "budgets2.firebaseapp.com",
-      projectId: "budgets2",
-      storageBucket: "budgets2.appspot.com",
-      messagingSenderId: "831553231670",
-      appId: "1:831553231670:web:24ddf858705232e24a3197",
-      measurementId: "G-S9VJX2R51C"
-    };
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const db = getFirestore(app);
-
-    const categoriesCol = collection(db, 'categories');
+    const categoriesCol = collection(this._fsService.db, 'categories');
+    
     const categorySnapshot = await getDocs(categoriesCol);
-    this.categoriesList = categorySnapshot?.docs?.map(doc => doc.data()) || [];
+    console.log(categorySnapshot?.docs?.map(doc => doc.data()));
+
+    const settingsCol = collection(this._fsService.db, 'settings');
+    const settingsSnapshot = (await getDocs(settingsCol)).docChanges();
+    console.log(settingsSnapshot);
+    // console.log(settingsSnapshot?.docs?.map(doc => doc.data()));
   }
 }
