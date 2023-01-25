@@ -21,7 +21,7 @@ export class FirestoreService {
             appId: "1:831553231670:web:24ddf858705232e24a3197",
             measurementId: "G-S9VJX2R51C"
         };
-      
+
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
