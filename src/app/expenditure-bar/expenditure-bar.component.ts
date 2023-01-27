@@ -19,12 +19,13 @@ export class ExpenditureBarComponent {
   public masterExpenditureProgressHeightNoEffectAfterUpdate = false;
 
   private _progBarHeightrefDoc = 'settings/display/masterExpenditureProgressBar/height';
+  private _unsubscribe: any = [];
 
   constructor(private _fsService: FirestoreService) {}
 
   async ngOnInit() {
 
-    onSnapshot(doc(this._fsService.db, this._progBarHeightrefDoc), (doc) => {
+    const unsub = onSnapshot(doc(this._fsService.db, this._progBarHeightrefDoc), (doc) => {
       const data = doc.data() || {};
       if (this.masterExpenditureProgressHeightNoEffectAfterUpdate) {
         this.masterExpenditureProgressHeightNoEffectAfterUpdate = false;
@@ -32,6 +33,7 @@ export class ExpenditureBarComponent {
         this.masterExpenditureProgressHeight = data['value'];
       }
     });
+    this._unsubscribe.push(unsub);
   }
 
 
@@ -44,6 +46,12 @@ export class ExpenditureBarComponent {
       setDoc(doc(this._fsService.db, this._progBarHeightrefDoc), {
         value: newValue
       }).then();
+    }
+  }
+
+  onDestroy() {
+    for (let unsubscribable of this._unsubscribe) {
+      unsubscribable.unsubscribe();
     }
   }
 }
