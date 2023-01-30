@@ -1,5 +1,5 @@
 <ng-template #popContent>
-  <div class="" style="width: 150px;">
+  <div class="w-100" style="display: flex; flex-direction: column; justify-content: space-between;">
     <div class="flex-between-center" style="margin-bottom: 2vh;">
       <div>Personalize</div>
       <div class="">
@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <div class="btn-group flex-around-center">
+    <div class="btn-group flex-between-center">
       <div class="">
         <button type="button" class="btn btn-sm btn-outline-secondary" [disabled]="masterExpenditureProgressHeight <= 0.75" (click)="modifyHeight(-.25)">-</button>
       </div>
@@ -28,5 +28,6 @@
   class="master-progress"
   [ngbPopover]="popContent"
   [autoClose]="false"
-  #progressBar="ngbPopover">
+  #progressBar="ngbPopover"
+  style="margin-bottom: 1.5vh;">
 </ngb-progressbar>

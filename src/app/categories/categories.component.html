@@ -1,34 +1,18 @@
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th scope="col">Category</th>
-			<th scope="col">Max Monthly Budget</th>
-			<th scope="col">Description</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr *ngFor="let category of categories">
-			<td>
-				{{ category.name }}
-			</td>
-			<td>{{ category.maxMonthly | number}}</td>
-			<td>{{ category.description }}</td>
-		</tr>
-	</tbody>
-</table>
+<div class="d-flex justify-content-between">
+  <div class="w-75 mx-3">
+    <app-categories-list></app-categories-list>
+  </div>
 
-<div class="d-flex justify-content-between p-2">
-	<ngb-pagination
-		[collectionSize]="collectionSize"
-		[(page)]="page"
-		[pageSize]="pageSize"
-		(pageChange)="refreshCategories()"
-	>
-	</ngb-pagination>
-
-	<select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshCategories()">
-		<option [ngValue]="2">2 items per page</option>
-		<option [ngValue]="4">4 items per page</option>
-		<option [ngValue]="6">6 items per page</option>
-	</select>
+  <div class="w-25 mx-3">
+    <button class="btn btn-primary w-100 mb-4">Add a category</button>
+    <div class="d-flex justify-content-between" style="flex-direction: column;">
+      <div class="">
+        card 1
+      </div>
+      <div class="">
+        card 2
+      </div>
+    </div>
+  </div>
 </div>
+
