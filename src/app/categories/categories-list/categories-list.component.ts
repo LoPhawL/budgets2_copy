@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { collection, doc, getDocs, onSnapshot } from 'firebase/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { FirestoreService } from 'src/app/_common/_services/Firestore.service';
-import { faSterlingSign, faInr, faArrowUpRightFromSquare, faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons';
+import { faSterlingSign, faInr, faArrowRightToBracket, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { CurrencyService } from 'src/app/_common/_services/Currency.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class CategoriesListComponent {
 
   icons = {
     currency: undefined,
-    expense: faArrowUpRightFromSquare,
+    expense: faArrowRightFromBracket,
     income: faArrowRightToBracket
   }
 

@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { CategoriesListComponent } from './categories/categories-list/categories-list.component';
 import { CurrencyService } from './_common/_services/Currency.service';
+import { AddCategoryPopupComponent } from './_common/popups/add-category-popup/add-category-popup.component';
+import { AddTransactionPopupComponent } from './_common/popups/add-transaction-popup/add-transaction-popup.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { CurrencyService } from './_common/_services/Currency.service';
     DashComponent,
     ExpenditureBarComponent,
     CategoriesComponent,
-    CategoriesListComponent
+    CategoriesListComponent,
+    AddCategoryPopupComponent,
+    AddTransactionPopupComponent
   ],
   imports: [
     BrowserModule,

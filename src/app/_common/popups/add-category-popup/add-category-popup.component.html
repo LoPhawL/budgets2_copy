@@ -1,0 +1,25 @@
+<div class="p-4">
+  <div class="display-6">Add a new category</div>
+
+  <form #newCategoryForm="ngForm">
+    <div class="mt-4 d-flex justify-content-start">
+      <div class="" style="width: 80%">
+        <input class="form-control" type="text" placeholder="Name of the category" name="categoryName">
+      </div>
+
+      <!-- <div class="" style="width: 30%">
+        <input class="form-control form-control-lg" type="text" placeholder="id" disabled>
+      </div> -->
+    </div>
+
+    <div class="mt-2 d-flex justify-content-start">
+      <div class="" style="width: 50%">
+        <input class="form-control" type="text" placeholder="Maximum budget" [type]="'number'">
+      </div>
+    </div>
+
+    <div class="mt-2 d-flex justify-content-start" style="width: 80%">
+      <textarea class="form-control" rows="3" placeholder="Description"></textarea>
+    </div>
+  </form>
+</div>
