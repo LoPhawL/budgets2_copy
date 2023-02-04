@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { collection, doc, getDocs, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { FirestoreService } from 'src/app/_common/_services/Firestore.service';
 import { faSterlingSign, faInr, faArrowRightToBracket, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
@@ -24,7 +24,7 @@ export class CategoriesListComponent {
   }
 
   page = 1;
-	pageSize = 4;
+	pageSize = 10;
 	collectionSize = 0;
 	categories: any;
 	private _ALL_CATEGORIES: any = {};
@@ -42,11 +42,16 @@ export class CategoriesListComponent {
     const snapshot = onSnapshot(collection(this._fsService.db, this._categoriesRef), (col) => {
       for (let docChange of col.docChanges()) {
         const doc = docChange.doc;
-        if(this._ALL_CATEGORIES[doc.id]) { // update
+        if (docChange.type === 'removed') {
+          this._toastr.info(`The category '${this._ALL_CATEGORIES[doc.id].name}' is deleted.`);
+          delete this._ALL_CATEGORIES[doc.id];
+        } else if (this._ALL_CATEGORIES[doc.id]) { // update
           // showing toastr notification here as there is no bulk update possible yet.
+          this._ALL_CATEGORIES[doc.id] = doc.data();
           this._toastr.info(`The category '${this._ALL_CATEGORIES[doc.id].name}' just got updated.`);
+        } else {
+          this._ALL_CATEGORIES[doc.id] = doc.data();
         }
-        this._ALL_CATEGORIES[doc.id] = doc.data();
       }
       this.collectionSize = Object.keys(this._ALL_CATEGORIES).length;
       this.refreshCategories();
@@ -59,7 +64,7 @@ export class CategoriesListComponent {
   }
 
 	refreshCategories() {
-		const keysToDisplay = Object.keys(this._ALL_CATEGORIES).slice(
+		const keysToDisplay = Object.keys(this._ALL_CATEGORIES).sort().slice(
 			(this.page - 1) * this.pageSize,
 			(this.page - 1) * this.pageSize + this.pageSize,
 		);

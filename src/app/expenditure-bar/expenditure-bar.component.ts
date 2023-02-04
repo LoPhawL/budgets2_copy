@@ -40,7 +40,7 @@ export class ExpenditureBarComponent {
   async modifyHeight(value: number) {
     const newValue = this.masterExpenditureProgressHeight + value;
 
-    if( newValue >= 0.5 && newValue <= 2.5) {
+    if ( newValue >= 0.5 && newValue <= 2.5) {
       this.masterExpenditureProgressHeight = newValue;
       this.masterExpenditureProgressHeightNoEffectAfterUpdate = true;
       setDoc(doc(this._fsService.db, this._progBarHeightrefDoc), {

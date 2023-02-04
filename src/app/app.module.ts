@@ -8,7 +8,7 @@ import { DashComponent } from './dash/dash.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ExpenditureBarComponent } from './expenditure-bar/expenditure-bar.component';
 import { CategoriesComponent } from './categories/categories.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { CategoriesListComponent } from './categories/categories-list/categories-list.component';
 import { CurrencyService } from './_common/_services/Currency.service';
@@ -32,6 +32,7 @@ import { AddTransactionPopupComponent } from './_common/popups/add-transaction-p
     NgbModule,
     FontAwesomeModule,
     FormsModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',
       preventDuplicates: true,

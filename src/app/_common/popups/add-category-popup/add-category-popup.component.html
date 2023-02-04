@@ -1,25 +1,48 @@
 <div class="p-4">
-  <div class="display-6">Add a new category</div>
+  <div class="display-6 d-flex justify-content-start">
+    <div>
+      Add a new category
+    </div>
+  </div>
 
-  <form #newCategoryForm="ngForm">
+  <form #newCategoryForm="ngForm" (ngSubmit)="Submit(newCategoryForm)">
     <div class="mt-4 d-flex justify-content-start">
-      <div class="" style="width: 80%">
-        <input class="form-control" type="text" placeholder="Name of the category" name="categoryName">
+      <div>
+        <input 
+          class="form-control"
+          type="text"
+          placeholder="Name of the category" 
+          [(ngModel)]="catName"
+          name="catName"
+          required>
       </div>
-
-      <!-- <div class="" style="width: 30%">
-        <input class="form-control form-control-lg" type="text" placeholder="id" disabled>
-      </div> -->
     </div>
 
     <div class="mt-2 d-flex justify-content-start">
-      <div class="" style="width: 50%">
-        <input class="form-control" type="text" placeholder="Maximum budget" [type]="'number'">
+      <div>
+        <input 
+          class="form-control"
+          type="number"
+          placeholder="Maximum budget"
+          [(ngModel)]="categoryMaxBudget"
+          name="categoryMaxBudget"
+          required>
       </div>
     </div>
 
-    <div class="mt-2 d-flex justify-content-start" style="width: 80%">
-      <textarea class="form-control" rows="3" placeholder="Description"></textarea>
+    <div class="mt-2 d-flex justify-content-start">
+      <div>
+        <textarea
+          class="form-control"
+          rows="3"
+          placeholder="Description"
+          [(ngModel)]="categoryDescription"
+          name="categoryDescription"
+          required>
+        </textarea>
+      </div>
     </div>
+
+      <button class="btn btn-outline-success mt-3" type="submit">Add</button>
   </form>
 </div>

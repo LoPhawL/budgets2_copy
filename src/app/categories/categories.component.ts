@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { AddCategoryPopupComponent } from '../_common/popups/add-category-popup/add-category-popup.component';
 
 @Component({
@@ -9,13 +10,14 @@ import { AddCategoryPopupComponent } from '../_common/popups/add-category-popup/
 })
 export class CategoriesComponent {
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal, private _toastr: ToastrService) {
   }
 
   AddCategory() {
 
     const modalRef = this.modalService.open(AddCategoryPopupComponent);
-		modalRef.componentInstance.name = 'He hoo';
+    modalRef.closed.subscribe(result => {
+      this._toastr.info('Category added successfully.');
+    });
   }
-
 }
