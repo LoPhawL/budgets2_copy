@@ -24,7 +24,7 @@ export class CategoriesListComponent {
   }
 
   page = 1;
-	pageSize = 10;
+	pageSize = 8;
 	collectionSize = 0;
 	categories: any;
 	private _ALL_CATEGORIES: any = {};

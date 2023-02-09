@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { CategoriesListComponent } from './categories/categories-list/categories-list.component';
 import { CurrencyService } from './_common/_services/Currency.service';
+import { CurrentBudgetService } from './_common/_services/CurrentBudget.service';
 import { AddCategoryPopupComponent } from './_common/popups/add-category-popup/add-category-popup.component';
 import { AddTransactionPopupComponent } from './_common/popups/add-transaction-popup/add-transaction-popup.component';
 
@@ -39,7 +40,8 @@ import { AddTransactionPopupComponent } from './_common/popups/add-transaction-p
     })
   ],
   providers: [
-    CurrencyService
+    CurrencyService,
+    CurrentBudgetService
   ],
   bootstrap: [AppComponent]
 })

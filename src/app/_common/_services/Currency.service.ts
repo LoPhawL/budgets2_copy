@@ -11,7 +11,7 @@ export class CurrencyService {
   // private _unsubscribe = []; // clear off the subscriptions
   private _currenciesRef = 'settings/currency';
 
-  constructor(private _fsService: FirestoreService ) {
+  constructor(private _fsService: FirestoreService) {
     const snapshot = onSnapshot(doc(this._fsService.db, this._currenciesRef), (doc) => {
       this.currencyIcon.next(doc.data()?.['faIcon'] || '');
     });

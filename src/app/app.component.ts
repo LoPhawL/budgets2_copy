@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CurrentBudgetService } from './_common/_services/CurrentBudget.service';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'budgets';
 
-  constructor() {}
+  constructor(private _currentBudgetService: CurrentBudgetService) {}
 }
