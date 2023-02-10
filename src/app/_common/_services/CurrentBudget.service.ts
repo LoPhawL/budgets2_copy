@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
+import { doc, DocumentData, DocumentReference, getDoc, onSnapshot, setDoc } from "firebase/firestore";
 import { BehaviorSubject } from "rxjs";
 import { FirestoreService } from "./Firestore.service";
 
@@ -7,7 +7,8 @@ import { FirestoreService } from "./Firestore.service";
 export class CurrentBudgetService {
 
   private _budgetMonth: string;
-  private _currentBudgetRef: string;
+  public readonly currentBudgetRef: string;
+  public readonly currentBudgetFsDocRef: DocumentReference<DocumentData>;
 
   public budgetInitiated = new BehaviorSubject<string>('');
 
@@ -15,18 +16,18 @@ export class CurrentBudgetService {
 
     const date = new Date();
     this._budgetMonth = date.getMonth() + '' + date.getFullYear();
-    this._currentBudgetRef = 'budgets/' + this._budgetMonth;
+    this.currentBudgetRef = 'budgets/' + this._budgetMonth;
 
     // check if the budget exists for the current month
-    const currentBudgetDocRef = doc(this._fsService.db, this._currentBudgetRef);
-    getDoc(currentBudgetDocRef).then(currentBudgetDocSnap => {
-      if (currentBudgetDocSnap.exists()) { // exists
-        console.log("Document data:", currentBudgetDocSnap.data());
-      } else { // not exists
-        setDoc(currentBudgetDocRef, {}).then(val => {
+    this.currentBudgetFsDocRef = doc(this._fsService.db, this.currentBudgetRef);
+    getDoc(this.currentBudgetFsDocRef).then(currentBudgetDocSnap => {
+      if (!currentBudgetDocSnap.exists()) { // not exists
+        setDoc(this.currentBudgetFsDocRef, {}).then(val => {
           this.budgetInitiated.next(this._budgetMonth);
         });
-      }
+      } // else { // exists
+      //   console.log("Document data:", currentBudgetDocSnap.data());
+      // }
     });
   }
 }
