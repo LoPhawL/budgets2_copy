@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-add-transaction-popup',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AddTransactionPopupComponent {
 
+  transAmount: number = 0;
+
+  Submit(transForm: NgForm) {
+
+  }
 }

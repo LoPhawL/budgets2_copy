@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { AddTransactionPopupComponent } from '../_common/popups/add-transaction-popup/add-transaction-popup.component';
 
 @Component({
   selector: 'app-dash',
@@ -7,4 +10,18 @@ import { Component } from '@angular/core';
 })
 export class DashComponent {
 
+  constructor(
+    private _modalService: NgbModal,
+    private _toastr: ToastrService
+  ) {
+    this.AddTransaction()
+  }
+
+  AddTransaction() {
+
+    const modalRef = this._modalService.open(AddTransactionPopupComponent);
+    modalRef.closed.subscribe(result => {
+      this._toastr.info('Transaction added successfully.');
+    });
+  }
 }

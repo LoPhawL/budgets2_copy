@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CategoriesComponent } from './categories/categories.component';
+import { DashComponent } from './dash/dash.component';
 
 const routes: Routes = [
+  { path: '', component: DashComponent },
   { path: 'categories', component: CategoriesComponent }
 ];
 

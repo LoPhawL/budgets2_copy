@@ -10,12 +10,12 @@ import { AddCategoryPopupComponent } from '../_common/popups/add-category-popup/
 })
 export class CategoriesComponent {
 
-  constructor(private modalService: NgbModal, private _toastr: ToastrService) {
+  constructor(private _modalService: NgbModal, private _toastr: ToastrService) {
   }
 
   AddCategory() {
 
-    const modalRef = this.modalService.open(AddCategoryPopupComponent);
+    const modalRef = this._modalService.open(AddCategoryPopupComponent);
     modalRef.closed.subscribe(result => {
       this._toastr.info('Category added successfully.');
     });
