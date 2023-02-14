@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { faSterlingSign, faInr, faArrowRightToBracket, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { CurrencyService } from 'src/app/_common/_services/Currency.service';
-import { ICategoriesMap, ICategory } from 'src/app/_common/_models/ITransactionCategory';
+// import { ICategoriesMap, ICategory } from 'src/app/_common/_models/ITransactionCategory';
 import { CommonDataService } from 'src/app/_common/_services/CommonData.service';
+import { CategoriesMap, Category } from 'src/app/_common/_models/ITransactionCategory';
 
 @Component({
   selector: 'app-categories-list',
@@ -25,8 +26,9 @@ export class CategoriesListComponent {
   page = 1;
 	pageSize = 8;
 	collectionSize = 0;
-	categories: Partial<ICategory>[] = [];
-	private _ALL_CATEGORIES: ICategoriesMap = {};
+	categories: Partial<Category>[] = [];
+	private _ALL_CATEGORIES: CategoriesMap = {};
+  private _categoryKeys: string[] = [];
 
   constructor(
     private _currencyService: CurrencyService,
@@ -40,9 +42,10 @@ export class CategoriesListComponent {
     });
 
     this._commonDataService.CATEGORIES_CHANGED.subscribe(
-      all_categories => {
-        this._ALL_CATEGORIES = all_categories;
-        this.collectionSize = Object.keys(this._ALL_CATEGORIES).length;
+      categoriesData => {
+        this._ALL_CATEGORIES = categoriesData.values;
+        this.collectionSize = categoriesData.length;
+        this._categoryKeys = categoriesData.keys;
         this.refreshCategories();
       }
     );
@@ -50,7 +53,8 @@ export class CategoriesListComponent {
   }
 
 	refreshCategories() {
-		const keysToDisplay = Object.keys(this._ALL_CATEGORIES).sort().slice(
+
+		const keysToDisplay = this._categoryKeys.sort().slice(
 			(this.page - 1) * this.pageSize,
 			(this.page - 1) * this.pageSize + this.pageSize,
 		);

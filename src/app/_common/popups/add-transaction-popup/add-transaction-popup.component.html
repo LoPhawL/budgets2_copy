@@ -1,1 +1,51 @@
-<p>add-transaction-popup works!</p>
+<div class="p-4">
+  <div class="display-6 d-flex justify-content-start">
+    <div>
+      Add a new transaction
+    </div>
+  </div>
+
+  <form #newTransactionForm="ngForm" (ngSubmit)="Submit(newTransactionForm)">
+    <div class="mt-4 d-flex justify-content-start">
+      <div>
+        <input
+          class="form-control"
+          type="number"
+          placeholder="Amount"
+          [(ngModel)]="transAmount"
+          name="catName"
+          required>
+      </div>
+    </div>
+
+    <div class="mt-2 d-flex justify-content-start">
+      <div>
+        <select class="form-select form-select-lg mb-3" [(ngModel)]="transactionType" [ariaPlaceholder]="'Select transaction type'">
+          <option [value]="transType" *ngFor="let transType of ALL_TRANSACTIONTYPES">{{transType}}</option>
+        </select>
+        <input
+          class="form-control"
+          type="number"
+          placeholder="Maximum budget"
+
+          name="categoryMaxBudget"
+          required>
+      </div>
+    </div>
+
+    <!-- <div class="mt-2 d-flex justify-content-start">
+      <div>
+        <textarea
+          class="form-control"
+          rows="3"
+          placeholder="Description"
+          [(ngModel)]="categoryDescription"
+          name="categoryDescription"
+          required>
+        </textarea>
+      </div>
+    </div> -->
+
+      <button class="btn btn-outline-success mt-3" type="submit">Add</button>
+  </form>
+</div>
