@@ -3,7 +3,7 @@ import { faSterlingSign, faInr, faArrowRightToBracket, faArrowRightFromBracket }
 import { CurrencyService } from 'src/app/_common/_services/Currency.service';
 // import { ICategoriesMap, ICategory } from 'src/app/_common/_models/ITransactionCategory';
 import { CommonDataService } from 'src/app/_common/_services/CommonData.service';
-import { CategoriesMap, Category } from 'src/app/_common/_models/ITransactionCategory';
+import { CategoriesMap, Category } from 'src/app/_common/_models/TransactionCategory';
 
 @Component({
   selector: 'app-categories-list',

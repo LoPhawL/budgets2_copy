@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
-import { CategoriesMap } from '../../_models/ITransactionCategory';
-import { TransactionTypesMap } from '../../_models/ITransactionType';
+import { ITransaction } from '../../_models/ITransaction';
+import { CategoriesMap } from '../../_models/TransactionCategory';
+import { TransactionTypesMap } from '../../_models/TransactionType';
+import { AccountsService } from '../../_services/Accounts.service';
 import { CommonDataService } from '../../_services/CommonData.service';
 
 @Component({
@@ -12,23 +14,34 @@ import { CommonDataService } from '../../_services/CommonData.service';
 })
 export class AddTransactionPopupComponent implements OnInit, OnDestroy {
 
-  ALL_TRANSACTIONTYPES: string[] = [];
-  ALL_CATEGORIES: string[] = [];
+  ALL_TRANSACTIONTYPE_IDS: string[] = [];
+  ALL_TRANSACTIONTYPES: TransactionTypesMap = {};
+  ALL_CATEGORY_IDS: string[] = [];
+  ALL_CATEGORIES: CategoriesMap = {};
 
-  transactionType: string = '';
-  transAmount: number = 0;
+  private unsubscribeNotifier = new Subject();
 
-  unsubscribeNotifier = new Subject();
+  transactionForm = new FormGroup({
+    transactionType: new FormControl('', [Validators.required]),
+    category: new FormControl(''),
+    amount: new FormControl('', [Validators.required, Validators.min(0)])
+  });
 
-  constructor(private _dataService: CommonDataService) {}
+
+  constructor(
+    private _dataService: CommonDataService,
+    private _accountsService: AccountsService
+  ) {}
 
   ngOnInit() {
     this._dataService.TRANSACTIONTYPES_CHANGED.pipe(takeUntil(this.unsubscribeNotifier)).subscribe( transactionTypes => {
-      console.log(transactionTypes);
+      this.ALL_TRANSACTIONTYPE_IDS = transactionTypes.keys;
+      this.ALL_TRANSACTIONTYPES = transactionTypes.values;
     });
 
     this._dataService.CATEGORIES_CHANGED.pipe(takeUntil(this.unsubscribeNotifier)).subscribe( categories => {
-      console.log(categories);
+      this.ALL_CATEGORY_IDS = categories.keys;
+      this.ALL_CATEGORIES = categories.values;
     });
   }
 
@@ -36,6 +49,34 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     this.unsubscribeNotifier.next(null);
   }
 
-  Submit(transForm: NgForm) {}
+  getDisplayName(id: string, entity: 'category_type' | 'transaction_type') {
 
+    if (entity === 'category_type') {
+      return this.ALL_CATEGORIES[id].name;
+    }
+    if (entity === 'transaction_type') {
+      return this.ALL_TRANSACTIONTYPES[id].name;
+    }
+    return '';
+  }
+
+  // calculateTransaction(event: any) {
+  //   console.log(this.transactionForm.get('transactionType')?.value);
+  //   // get the rules for transactions,
+    // if there are rules that has accounts as 'ANY', add form controls to get accounts
+  // }
+
+  submit() {
+    const transaction: Partial<ITransaction> = {
+      transactionType: String(this.transactionForm.get('transactionType')?.value),
+      category: this.transactionForm.get('catrgory')?.value,
+      amount: Number(this.transactionForm.get('amount')?.value),
+      date: new Date(),
+      tags: {},
+      labels: []
+    };
+    transaction.date = new Date();
+    const modifiedAccounts = this._accountsService.runTransaction(this.ALL_TRANSACTIONTYPES[transaction.transactionType!].rules!, transaction.amount!);
+    // in a transaction, save transaction and modifiedAccounts
+  }
 }

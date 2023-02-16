@@ -5,31 +5,34 @@
     </div>
   </div>
 
-  <form #newTransactionForm="ngForm" (ngSubmit)="Submit(newTransactionForm)">
+  <form [formGroup]="transactionForm" (ngSubmit)="submit()">
     <div class="mt-4 d-flex justify-content-start">
+      <div>
+        <label for="transaction-type">Transaction type</label>
+        <select id="transaction-type" class="form-select form-select-lg mb-3" formControlName="transactionType">
+          <!-- (change)="calculateTransaction($event);" -->
+          <option [value]="transType" *ngFor="let transType of ALL_TRANSACTIONTYPE_IDS">{{ getDisplayName(transType, 'transaction_type') }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mt-2 d-flex justify-content-start">
       <div>
         <input
           class="form-control"
           type="number"
           placeholder="Amount"
-          [(ngModel)]="transAmount"
-          name="catName"
+          formControlName="amount"
           required>
       </div>
     </div>
 
     <div class="mt-2 d-flex justify-content-start">
       <div>
-        <select class="form-select form-select-lg mb-3" [(ngModel)]="transactionType" [ariaPlaceholder]="'Select transaction type'">
-          <option [value]="transType" *ngFor="let transType of ALL_TRANSACTIONTYPES">{{transType}}</option>
+        <label for="transaction-category">Transaction category</label>
+        <select id="transaction-category" class="form-select form-select-lg mb-3"  formControlName="category">
+          <option [value]="categoryType" *ngFor="let categoryType of ALL_CATEGORY_IDS">{{ getDisplayName(categoryType, 'category_type') }}</option>
         </select>
-        <input
-          class="form-control"
-          type="number"
-          placeholder="Maximum budget"
-
-          name="categoryMaxBudget"
-          required>
       </div>
     </div>
 

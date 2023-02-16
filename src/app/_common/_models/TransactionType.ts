@@ -1,8 +1,9 @@
 import { NamedDocument, INamedDocumentsMap } from "./INamedDocument";
 
 export interface ITransactionRule {
-  account: 'DEFAULT' | string;
+  account: 'DEFAULT' | 'ANY' | string;
   operation: 'INCREMENT' | 'DECREMENT';
+  order: number;
 }
 
 export class TransactionType extends NamedDocument {
