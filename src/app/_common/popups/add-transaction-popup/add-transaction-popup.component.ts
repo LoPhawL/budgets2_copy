@@ -6,6 +6,7 @@ import { CategoriesMap } from '../../_models/TransactionCategory';
 import { TransactionTypesMap } from '../../_models/TransactionType';
 import { AccountsService } from '../../_services/Accounts.service';
 import { CommonDataService } from '../../_services/CommonData.service';
+import { FirestoreService } from '../../_services/Firestore.service';
 
 @Component({
   selector: 'app-add-transaction-popup',
@@ -30,7 +31,8 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
 
   constructor(
     private _dataService: CommonDataService,
-    private _accountsService: AccountsService
+    private _accountsService: AccountsService,
+    private _fsService: FirestoreService
   ) {}
 
   ngOnInit() {
@@ -78,5 +80,7 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     transaction.date = new Date();
     const modifiedAccounts = this._accountsService.runTransaction(this.ALL_TRANSACTIONTYPES[transaction.transactionType!].rules!, transaction.amount!);
     // in a transaction, save transaction and modifiedAccounts
+    const batch = this._fsService.getBatch();
+    
   }
 }

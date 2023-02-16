@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
-import { doc, DocumentData, DocumentReference, getDoc, onSnapshot, setDoc } from "firebase/firestore";
+import { doc, DocumentData, DocumentReference, getDoc, setDoc, WriteBatch } from "firebase/firestore";
 import { BehaviorSubject } from "rxjs";
+import { ITransaction } from "../_models/ITransaction";
 import { FirestoreService } from "./Firestore.service";
 
 @Injectable()
@@ -29,5 +30,10 @@ export class CurrentBudgetService {
       //   console.log("Document data:", currentBudgetDocSnap.data());
       // }
     });
+  }
+
+  saveTransaction(transaction: ITransaction, batch: WriteBatch) {
+    // const docRef = 
+    // batch.set(this._fsService, this.currentBudgetRef, {})
   }
 }

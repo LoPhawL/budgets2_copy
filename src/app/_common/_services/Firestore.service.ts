@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { Firestore, getFirestore } from "firebase/firestore";
-
+import { Firestore, getFirestore, writeBatch } from "firebase/firestore";
 
 @Injectable({
     providedIn: 'root'
@@ -26,6 +25,10 @@ export class FirestoreService {
       const app = initializeApp(firebaseConfig);
       const analytics = getAnalytics(app);
       this.db = getFirestore(app);
+    }
+
+    getBatch() {
+        return writeBatch(this.db);
     }
 
 }

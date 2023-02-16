@@ -44,7 +44,7 @@ export class AccountsService {
   runTransaction(rules: ITransactionRule[], amount: number) {
     const modifiedAccounts: Account[] = [];
     for (let rule of rules) {
-      if (rule.account === 'ANY') {
+      if (rule.account.toLowerCase() === 'any') {
         throw new Error('Provide the account id to apply the transaction to.');
       }
       let accToTransact = this.emittedAccounts.values[rule.account] as Account;
