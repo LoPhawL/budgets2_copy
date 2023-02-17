@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, takeUntil } from 'rxjs';
 import { ITransaction } from '../../_models/ITransaction';
 import { CategoriesMap } from '../../_models/TransactionCategory';
@@ -8,6 +9,7 @@ import { AccountsService } from '../../_services/Accounts.service';
 import { CommonDataService } from '../../_services/CommonData.service';
 import { CurrentBudgetService } from '../../_services/CurrentBudget.service';
 import { FirestoreService } from '../../_services/Firestore.service';
+import { EitherNotesOrCategoryRequiredForTransaction } from '../../_validators/newTransaction_notesOrCategory_required';
 
 @Component({
   selector: 'app-add-transaction-popup',
@@ -16,6 +18,7 @@ import { FirestoreService } from '../../_services/Firestore.service';
 })
 export class AddTransactionPopupComponent implements OnInit, OnDestroy {
 
+  CATEGORY_IDS_FOR_DISPLAY: string[] = [];
   ALL_TRANSACTIONTYPE_IDS: string[] = [];
   ALL_TRANSACTIONTYPES: TransactionTypesMap = {};
   ALL_CATEGORY_IDS: string[] = [];
@@ -23,19 +26,25 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
 
   private unsubscribeNotifier = new Subject();
 
-  transactionForm = new FormGroup({
-    transactionType: new FormControl('', [Validators.required]),
-    category: new FormControl(''),
-    amount: new FormControl('', [Validators.required, Validators.min(0)])
-  });
+  transactionForm: FormGroup;
 
 
   constructor(
     private _dataService: CommonDataService,
     private _accountsService: AccountsService,
     private _fsService: FirestoreService,
-    private _currentBudgetService: CurrentBudgetService
-  ) {}
+    private _currentBudgetService: CurrentBudgetService,
+    private _currentModal: NgbActiveModal
+  ) {
+    this.transactionForm = new FormGroup({
+      transactionNote: new FormControl(null),
+      transactionType: new FormControl('', [Validators.required]),
+      category: new FormControl({ value: null, disabled: true}),
+      amount: new FormControl(null, [Validators.required, Validators.min(0)])
+    });
+
+    this.transactionForm.setValidators(EitherNotesOrCategoryRequiredForTransaction)
+  }
 
   ngOnInit() {
     this._dataService.TRANSACTIONTYPES_CHANGED.pipe(takeUntil(this.unsubscribeNotifier)).subscribe( transactionTypes => {
@@ -46,7 +55,10 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     this._dataService.CATEGORIES_CHANGED.pipe(takeUntil(this.unsubscribeNotifier)).subscribe( categories => {
       this.ALL_CATEGORY_IDS = categories.keys;
       this.ALL_CATEGORIES = categories.values;
+      this.transactionTypeChanged();
     });
+
+
   }
 
   ngOnDestroy() {
@@ -64,14 +76,22 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     return '';
   }
 
-  // calculateTransaction(event: any) {
-  //   console.log(this.transactionForm.get('transactionType')?.value);
-  //   // get the rules for transactions,
-    // if there are rules that has accounts as 'ANY', add form controls to get accounts
-  // }
+  transactionTypeChanged() {
+    // populate categories
+    const transactionType = this.transactionForm.get('transactionType')?.value;
+    this.CATEGORY_IDS_FOR_DISPLAY  = this.ALL_CATEGORY_IDS.filter( categoryId => {
+      return this.ALL_CATEGORIES[categoryId].transactionType === transactionType
+    });
+    if (!this.CATEGORY_IDS_FOR_DISPLAY.length) {
+      this.transactionForm.get('category')?.disable();
+    } else {
+      this.transactionForm.get('category')?.enable();
+    }
+  }
 
   submit() {
     const transaction: Partial<ITransaction> = {
+      note: String(this.transactionForm.get('transactionNote')?.value),
       transactionType: String(this.transactionForm.get('transactionType')?.value),
       category: this.transactionForm.get('catrgory')?.value || null,
       amount: Number(this.transactionForm.get('amount')?.value),
@@ -85,6 +105,6 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     const batch = this._fsService.getBatch();
     this._currentBudgetService.saveTransaction(transaction, batch);
     modifiedAccounts.forEach(account => this._accountsService.saveAccount(account, batch))
-    batch.commit()
+    batch.commit().then( () => this._currentModal.close('added') );
   }
 }

@@ -1,6 +1,7 @@
 import { ITransactionTag } from "./ITransactionTag";
 
 export interface ITransaction {
+  note: string;
   amount: number;
   date: Date;
   transactionType: string;

@@ -2,6 +2,10 @@ import { Component, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { doc, setDoc } from '@firebase/firestore';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subject, takeUntil } from 'rxjs';
+import { INamedDocumentsMap } from '../../_models/INamedDocument';
+import { TransactionType } from '../../_models/TransactionType';
+import { CommonDataService } from '../../_services/CommonData.service';
 import { FirestoreService } from '../../_services/Firestore.service';
 
 @Component({
@@ -12,10 +16,22 @@ import { FirestoreService } from '../../_services/Firestore.service';
 export class AddCategoryPopupComponent {
 
   catName: string = '';
-  categoryMaxBudget: number = 0;
+  categoryMaxBudget: number | null = null;
   categoryDescription: string = '';
+  transType: string = 'expense';
 
-	constructor(public activeModal: NgbActiveModal, public _firestoreService: FirestoreService) {}
+  private unsubscribeNotifier = new Subject();
+  ALL_TRANSACTIONTYPE_IDS: string[] = [];
+  ALL_TRANSACTIONTYPES: INamedDocumentsMap<TransactionType> = {};
+
+	constructor(public activeModal: NgbActiveModal, public _firestoreService: FirestoreService, private _dataService: CommonDataService) {}
+
+  ngOnInit() {
+    this._dataService.TRANSACTIONTYPES_CHANGED.pipe(takeUntil(this.unsubscribeNotifier)).subscribe( transactionTypes => {
+      this.ALL_TRANSACTIONTYPE_IDS = transactionTypes.keys;
+      this.ALL_TRANSACTIONTYPES = transactionTypes.values;
+    });
+  }
 
   async Submit(catForm: NgForm) {
     // generate a category key
@@ -32,10 +48,14 @@ export class AddCategoryPopupComponent {
         description: this.categoryDescription,
         maxMonthly: this.categoryMaxBudget,
         currency: 'GBP',
-        transactionType: 'exp'
+        transactionType: this.transType
       }
     );
 
     this.activeModal.close('saved');
+  }
+
+  ngOnDestroy() {
+    this.unsubscribeNotifier.next(null);
   }
 }

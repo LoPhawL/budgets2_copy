@@ -6,12 +6,32 @@
   </div>
 
   <form [formGroup]="transactionForm" (ngSubmit)="submit()">
+
     <div class="mt-4 d-flex justify-content-start">
       <div>
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Your notes"
+          formControlName="transactionNote">
+      </div>
+    </div>
+
+    <div class="mt-2 d-flex justify-content-start">
+      <div>
         <label for="transaction-type">Transaction type</label>
-        <select id="transaction-type" class="form-select form-select-lg mb-3" formControlName="transactionType">
-          <!-- (change)="calculateTransaction($event);" -->
+        <select id="transaction-type" class="form-select" formControlName="transactionType" (change)="transactionTypeChanged();">
+          <!-- -->
           <option [value]="transType" *ngFor="let transType of ALL_TRANSACTIONTYPE_IDS">{{ getDisplayName(transType, 'transaction_type') }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mt-2 d-flex justify-content-start">
+      <div>
+        <label for="transaction-category">Transaction category</label>
+        <select id="transaction-category" class="form-select mb-3"  formControlName="category">
+          <option [value]="categoryType" *ngFor="let categoryType of CATEGORY_IDS_FOR_DISPLAY">{{ getDisplayName(categoryType, 'category_type') }}</option>
         </select>
       </div>
     </div>
@@ -22,33 +42,11 @@
           class="form-control"
           type="number"
           placeholder="Amount"
-          formControlName="amount"
-          required>
+          formControlName="amount">
       </div>
     </div>
 
-    <div class="mt-2 d-flex justify-content-start">
-      <div>
-        <label for="transaction-category">Transaction category</label>
-        <select id="transaction-category" class="form-select form-select-lg mb-3"  formControlName="category">
-          <option [value]="categoryType" *ngFor="let categoryType of ALL_CATEGORY_IDS">{{ getDisplayName(categoryType, 'category_type') }}</option>
-        </select>
-      </div>
-    </div>
+    <button class="btn btn-outline-success mt-3" type="submit" [disabled]="!transactionForm.valid">Add</button>
 
-    <!-- <div class="mt-2 d-flex justify-content-start">
-      <div>
-        <textarea
-          class="form-control"
-          rows="3"
-          placeholder="Description"
-          [(ngModel)]="categoryDescription"
-          name="categoryDescription"
-          required>
-        </textarea>
-      </div>
-    </div> -->
-
-      <button class="btn btn-outline-success mt-3" type="submit">Add</button>
   </form>
 </div>

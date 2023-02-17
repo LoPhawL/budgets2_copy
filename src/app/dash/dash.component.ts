@@ -21,7 +21,9 @@ export class DashComponent {
 
     const modalRef = this._modalService.open(AddTransactionPopupComponent);
     modalRef.closed.subscribe(result => {
-      this._toastr.info('Transaction added successfully.');
+      if (result === 'added') {
+        this._toastr.info('Transaction added successfully.');
+      }
     });
   }
 }
