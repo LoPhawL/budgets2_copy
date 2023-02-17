@@ -20,12 +20,17 @@ export class SerializerService {
   ) {
   for (let docChange of col.docChanges()) {
     const doc = docChange.doc;
+    const namedDocName = localDataStore[doc.id]?.name;
     if (docChange.type === 'removed') {
-      this._toastr.info(`The ${entityName.toLowerCase()} '${localDataStore[doc.id].name}' is deleted.`);
+      if(namedDocName) {
+        this._toastr.info(`The ${entityName.toLowerCase()} '${namedDocName}' is deleted.`);
+      }
       delete localDataStore[doc.id];
     } else if (localDataStore[doc.id]) {
       localDataStore[doc.id] = doc.data({}) as unknown as T1;
-      this._toastr.info(`The ${entityName.toLowerCase()} '${localDataStore[doc.id].name}' just got updated.`);
+      if (namedDocName) {
+        this._toastr.info(`The ${entityName.toLowerCase()} '${namedDocName}' just got updated.`);
+      }
     } else {
       localDataStore[doc.id] = doc.data() as unknown as T1;
     }

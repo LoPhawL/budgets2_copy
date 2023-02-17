@@ -6,6 +6,7 @@ import { CategoriesMap } from '../../_models/TransactionCategory';
 import { TransactionTypesMap } from '../../_models/TransactionType';
 import { AccountsService } from '../../_services/Accounts.service';
 import { CommonDataService } from '../../_services/CommonData.service';
+import { CurrentBudgetService } from '../../_services/CurrentBudget.service';
 import { FirestoreService } from '../../_services/Firestore.service';
 
 @Component({
@@ -32,7 +33,8 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
   constructor(
     private _dataService: CommonDataService,
     private _accountsService: AccountsService,
-    private _fsService: FirestoreService
+    private _fsService: FirestoreService,
+    private _currentBudgetService: CurrentBudgetService
   ) {}
 
   ngOnInit() {
@@ -71,7 +73,7 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
   submit() {
     const transaction: Partial<ITransaction> = {
       transactionType: String(this.transactionForm.get('transactionType')?.value),
-      category: this.transactionForm.get('catrgory')?.value,
+      category: this.transactionForm.get('catrgory')?.value || null,
       amount: Number(this.transactionForm.get('amount')?.value),
       date: new Date(),
       tags: {},
@@ -81,6 +83,8 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     const modifiedAccounts = this._accountsService.runTransaction(this.ALL_TRANSACTIONTYPES[transaction.transactionType!].rules!, transaction.amount!);
     // in a transaction, save transaction and modifiedAccounts
     const batch = this._fsService.getBatch();
-    
+    this._currentBudgetService.saveTransaction(transaction, batch);
+    modifiedAccounts.forEach(account => this._accountsService.saveAccount(account, batch))
+    batch.commit()
   }
 }

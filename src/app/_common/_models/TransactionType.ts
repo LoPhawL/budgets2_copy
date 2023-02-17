@@ -1,7 +1,7 @@
 import { NamedDocument, INamedDocumentsMap } from "./INamedDocument";
 
 export interface ITransactionRule {
-  account: 'DEFAULT' | 'ANY' | string;
+  account: 'default' | 'ANY' | string; // ref_{n} => references the rule with order as n, n should be less than 'order'.
   operation: 'INCREMENT' | 'DECREMENT';
   order: number;
 }

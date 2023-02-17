@@ -15,7 +15,6 @@ export class Account extends NamedDocument {
   }
 
   applyTransaction(rule: ITransactionRule, amount: number) {
-    debugger;
     if (rule.operation === 'INCREMENT') {
       this.balance += amount;
     } else {

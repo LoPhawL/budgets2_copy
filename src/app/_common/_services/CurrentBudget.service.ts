@@ -32,8 +32,15 @@ export class CurrentBudgetService {
     });
   }
 
-  saveTransaction(transaction: ITransaction, batch: WriteBatch) {
-    // const docRef = 
+  saveTransaction(transaction: Partial<ITransaction>, batch: WriteBatch) {
+
+    // const transactionTypeBasedColRef = this.currentBudgetRef + '/' + transaction.transactionType;
+    // const id = collection(this._fsService.db, this.currentBudgetRef, '/', transaction.transactionType). .id;
+    const id = transaction.date?.getTime() + '';
+    const document: {[key:string]: Partial<ITransaction>} = {};
+    document[id] = transaction;
+    batch.update(doc(this._fsService.db, this.currentBudgetRef, '/'), document);
+
     // batch.set(this._fsService, this.currentBudgetRef, {})
   }
 }

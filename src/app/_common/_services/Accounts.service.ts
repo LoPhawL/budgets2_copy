@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { collection, onSnapshot, QuerySnapshot, Unsubscribe } from "firebase/firestore";
+import { collection, doc, onSnapshot, QuerySnapshot, Unsubscribe, WriteBatch } from "firebase/firestore";
 import { BehaviorSubject } from "rxjs";
 import { Account, AccountsMap } from "../_models/Account";
 import { IParsedDocument } from "../_models/IParsedDocument";
@@ -43,6 +43,7 @@ export class AccountsService {
 
   runTransaction(rules: ITransactionRule[], amount: number) {
     const modifiedAccounts: Account[] = [];
+    rules.sort( (a,b) => a.order - b.order ); // check if sorted correctly
     for (let rule of rules) {
       if (rule.account.toLowerCase() === 'any') {
         throw new Error('Provide the account id to apply the transaction to.');
@@ -53,5 +54,9 @@ export class AccountsService {
       modifiedAccounts.push(accToTransact);
     }
     return modifiedAccounts;
+  }
+
+  saveAccount(account: Account, batch: WriteBatch): void {
+    batch.update(doc(this._fsService.db, 'accounts', account.id), { balance: account.balance });
   }
 }
