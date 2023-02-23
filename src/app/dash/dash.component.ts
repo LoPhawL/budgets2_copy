@@ -14,7 +14,7 @@ export class DashComponent {
     private _modalService: NgbModal,
     private _toastr: ToastrService
   ) {
-    this.AddTransaction()
+    // this.AddTransaction();
   }
 
   AddTransaction() {
