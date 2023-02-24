@@ -57,8 +57,6 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
       this.ALL_CATEGORIES = categories.values;
       this.transactionTypeChanged();
     });
-
-
   }
 
   ngOnDestroy() {
