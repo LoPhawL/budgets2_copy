@@ -15,6 +15,7 @@ import { CurrencyService } from './_common/_services/Currency.service';
 import { CurrentBudgetService } from './_common/_services/CurrentBudget.service';
 import { AddCategoryPopupComponent } from './_common/popups/add-category-popup/add-category-popup.component';
 import { AddTransactionPopupComponent } from './_common/popups/add-transaction-popup/add-transaction-popup.component';
+import { FabComponent } from './_common/fab/fab.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { AddTransactionPopupComponent } from './_common/popups/add-transaction-p
     CategoriesComponent,
     CategoriesListComponent,
     AddCategoryPopupComponent,
-    AddTransactionPopupComponent
+    AddTransactionPopupComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,7 +38,8 @@ import { AddTransactionPopupComponent } from './_common/popups/add-transaction-p
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',
       preventDuplicates: true,
-    })
+    }),
+    FabComponent
   ],
   providers: [
     CurrencyService,

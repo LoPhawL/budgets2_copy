@@ -1,10 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
-import { AddTransactionPopupComponent } from '../_common/popups/add-transaction-popup/add-transaction-popup.component';
-import { Account } from '../_common/_models/Account';
-import { IParsedDocument } from '../_common/_models/IParsedDocument';
 import { AccountsService } from '../_common/_services/Accounts.service';
 
 @Component({
@@ -18,19 +13,9 @@ export class DashComponent implements OnInit, OnDestroy {
 
   private unsubscribeNotifier = new Subject();
 
-  // public parsedAccountsData: IParsedDocument<Account> = {
-  //   keys: [],
-  //   values: {},
-  //   length: 0
-  // }
-
-  constructor(
-    private _modalService: NgbModal,
-    private _toastr: ToastrService,
+  constructor(    
     private _accountsService: AccountsService
-  ) {
-    // this.AddTransaction();
-  }
+  ) {}
 
   ngOnInit() {
     this._accountsService.ACCOUNTS_CHANGED.pipe(takeUntil(this.unsubscribeNotifier)).subscribe( accountsData => {
@@ -40,15 +25,5 @@ export class DashComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribeNotifier.next(null);
-  }
-
-  AddTransaction() {
-
-    const modalRef = this._modalService.open(AddTransactionPopupComponent);
-    modalRef.closed.subscribe(result => {
-      if (result === 'added') {
-        this._toastr.info('Transaction added successfully.');
-      }
-    });
   }
 }
