@@ -1,0 +1,8 @@
+.app-backdrop {
+    background-color: unset;
+    border-bottom: unset;
+    border-radius: 8px;
+    backdrop-filter: blur(7px) brightness(0.7);
+    max-width: max-content;
+    white-space: nowrap;
+  }

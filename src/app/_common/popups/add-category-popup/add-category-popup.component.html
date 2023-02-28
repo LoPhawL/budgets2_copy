@@ -6,10 +6,10 @@
   </div>
 
   <form #newCategoryForm="ngForm" (ngSubmit)="Submit(newCategoryForm)">
-    <div class="mt-4 d-flex justify-content-start">
+    <div class="mt-4 d-flex row justify-content-start">
       <div>
         <input
-          class="form-control"
+          class="form-control w-sm-12"
           type="text"
           placeholder="Name of the category"
           [(ngModel)]="catName"
@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <div class="mt-2 d-flex justify-content-start">
+    <div class="mt-2 d-flex row justify-content-start">
       <div>
         <label for="categ-popup-transaction-type">Transaction type</label>
         <select id="categ-popup-transaction-type" class="form-select " name="transactionType" [(ngModel)]="transType">
@@ -28,10 +28,10 @@
       </div>
     </div>
 
-    <div class="mt-2 d-flex justify-content-start">
+    <div class="mt-2 d-flex row justify-content-start">
       <div>
         <input
-          class="form-control"
+          class="form-control w-sm-12"
           type="number"
           placeholder="Maximum monthly budget"
           [(ngModel)]="categoryMaxBudget"
@@ -40,10 +40,10 @@
       </div>
     </div>
 
-    <div class="mt-2 d-flex justify-content-start">
+    <div class="mt-2 d-flex row justify-content-start">
       <div>
         <textarea
-          class="form-control"
+          class="form-control w-sm-12"
           rows="3"
           placeholder="Description"
           [(ngModel)]="categoryDescription"

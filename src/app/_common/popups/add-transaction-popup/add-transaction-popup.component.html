@@ -7,39 +7,39 @@
 
   <form [formGroup]="transactionForm" (ngSubmit)="submit()">
 
-    <div class="mt-4 d-flex justify-content-start">
+    <div class="mt-4 d-flex row justify-content-start">
       <div>
         <input
-          class="form-control"
+          class="form-control w-sm-12"
           type="text"
           placeholder="Your notes"
           formControlName="transactionNote">
       </div>
     </div>
 
-    <div class="mt-2 d-flex justify-content-start">
+    <div class="mt-2 d-flex row justify-content-start">
       <div>
         <label for="transaction-type">Transaction type</label>
-        <select id="transaction-type" class="form-select" formControlName="transactionType" (change)="transactionTypeChanged();">
+        <select id="transaction-type" class="form-select w-sm-12" formControlName="transactionType" (change)="transactionTypeChanged();">
           <!-- -->
           <option [value]="transType" *ngFor="let transType of ALL_TRANSACTIONTYPE_IDS">{{ getDisplayName(transType, 'transaction_type') }}</option>
         </select>
       </div>
     </div>
 
-    <div class="mt-2 d-flex justify-content-start">
+    <div class="mt-2 d-flex row justify-content-start">
       <div>
         <label for="transaction-category">Transaction category</label>
-        <select id="transaction-category" class="form-select mb-3"  formControlName="category">
+        <select id="transaction-category" class="form-select mb-3 w-sm-12"  formControlName="category">
           <option [value]="categoryType" *ngFor="let categoryType of CATEGORY_IDS_FOR_DISPLAY">{{ getDisplayName(categoryType, 'category_type') }}</option>
         </select>
       </div>
     </div>
 
-    <div class="mt-2 d-flex justify-content-start">
+    <div class="mt-2 d-flex row justify-content-start">
       <div>
         <input
-          class="form-control"
+          class="form-control w-sm-12"
           type="number"
           placeholder="Amount"
           formControlName="amount">
