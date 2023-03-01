@@ -1,9 +1,7 @@
 import { Injectable } from "@angular/core";
 import { collection, onSnapshot, QuerySnapshot, Unsubscribe } from 'firebase/firestore';
-import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject } from "rxjs";
 import { FirestoreService } from 'src/app/_common/_services/Firestore.service';
-import { INamedDocumentsMap, NamedDocument } from "../_models/INamedDocument";
 import { IParsedDocument } from "../_models/IParsedDocument";
 import { CategoriesMap, Category } from "../_models/TransactionCategory";
 import { TransactionType, TransactionTypesMap } from "../_models/TransactionType";

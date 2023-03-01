@@ -30,7 +30,7 @@
     <div class="mt-2 d-flex row justify-content-start">
       <div>
         <label for="transaction-category">Transaction category</label>
-        <select id="transaction-category" class="form-select mb-3 w-sm-12"  formControlName="category">
+        <select id="transaction-category" class="form-select w-sm-12"  formControlName="category">
           <option [value]="categoryType" *ngFor="let categoryType of CATEGORY_IDS_FOR_DISPLAY">{{ getDisplayName(categoryType, 'category_type') }}</option>
         </select>
       </div>
@@ -43,6 +43,18 @@
           type="number"
           placeholder="Amount"
           formControlName="amount">
+      </div>
+    </div>
+
+    <div class="mt-2">
+      <div formArrayName="accountsToTransact">
+        <span *ngIf="getTransactingAccounts().length">Choose accounts to transact</span>
+        <select
+          class="form-select mb-3 w-75 ml-3"
+          *ngFor="let acc of getTransactingAccounts(); let inn = index;"
+          [formControlName]="inn">
+            <option [value]="accId" *ngFor="let accId of ALL_ACCOUNT_IDS">{{ getDisplayName(accId, 'account') }}</option>
+        </select>
       </div>
     </div>
 

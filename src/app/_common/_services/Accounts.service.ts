@@ -49,7 +49,8 @@ export class AccountsService {
         throw new Error('Provide the account id to apply the transaction to.');
       }
       let accToTransact = this.emittedAccounts.values[rule.account] as Account;
-      accToTransact = new Account(rule.account, accToTransact.currency, accToTransact.name || '', accToTransact.balance);
+
+      accToTransact = modifiedAccounts.find(acc => acc.id === rule.account) || new Account(rule.account, accToTransact.currency, accToTransact.name || '', accToTransact.balance);
       accToTransact.applyTransaction(rule, amount);
       modifiedAccounts.push(accToTransact);
     }
