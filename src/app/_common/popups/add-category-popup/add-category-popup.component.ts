@@ -40,7 +40,7 @@ export class AddCategoryPopupComponent {
     this.catName = this.catName.trim();
     this.categoryDescription = this.categoryDescription.trim();
     let key = this.catName.toLowerCase();
-    key = key.replace(' ', '_');
+    key = key.split(' ').join('_');
     await setDoc(
       doc(this._firestoreService.db, 'categories/' +key),
       {
