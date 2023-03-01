@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DashComponent } from './dash/dash.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ExpenditureBarComponent } from './expenditure-bar/expenditure-bar.component';
+// import { ExpenditureBarComponent } from './expenditure-bar/expenditure-bar.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
@@ -21,7 +21,7 @@ import { FabComponent } from './_common/fab/fab.component';
   declarations: [
     AppComponent,
     DashComponent,
-    ExpenditureBarComponent,
+    // ExpenditureBarComponent,
     CategoriesComponent,
     CategoriesListComponent,
     AddCategoryPopupComponent,
