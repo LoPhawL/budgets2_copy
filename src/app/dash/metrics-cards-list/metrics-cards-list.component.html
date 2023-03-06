@@ -17,8 +17,7 @@
                             {{ ALL_ACCOUNTS[accId].name }}
                         </div>
                         <div class="">
-                            <app-currency-symbol fonsSize="0.9"></app-currency-symbol>
-                            {{ ALL_ACCOUNTS[accId].balance | number : '1.2-2' }}
+                            <app-currency-symbol fonsSize="0.9"></app-currency-symbol>{{ ALL_ACCOUNTS[accId].balance | number : '1.2-2' }}
                         </div>
                     </div>
                 </div>
