@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { faSterlingSign, faInr, faArrowRightToBracket, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import { CurrencyService } from 'src/app/_common/_services/Currency.service';
+import { faArrowRightToBracket, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 // import { ICategoriesMap, ICategory } from 'src/app/_common/_models/ITransactionCategory';
 import { CommonDataService } from 'src/app/_common/_services/CommonData.service';
 import { CategoriesMap, Category } from 'src/app/_common/_models/TransactionCategory';
@@ -12,13 +11,10 @@ import { CategoriesMap, Category } from 'src/app/_common/_models/TransactionCate
 })
 export class CategoriesListComponent {
 
-  allIcons: any = {
-    faSterlingSign,
-    faInr
-  }
+ 
 
   icons = {
-    currency: undefined,
+    // currency: undefined,
     expense: faArrowRightFromBracket,
     income: faArrowRightToBracket
   }
@@ -30,16 +26,11 @@ export class CategoriesListComponent {
 	private _ALL_CATEGORIES: CategoriesMap = {};
   private _categoryKeys: string[] = [];
 
-  constructor(
-    private _currencyService: CurrencyService,
+  constructor(    
     private _commonDataService: CommonDataService
   ) {}
 
-  ngOnInit() {
-
-    this._currencyService.currencyIcon.subscribe(icon => {
-      this.icons.currency = this.allIcons[icon];
-    });
+  ngOnInit() {    
 
     this._commonDataService.CATEGORIES_CHANGED.subscribe(
       categoriesData => {

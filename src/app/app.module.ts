@@ -16,6 +16,7 @@ import { CurrentBudgetService } from './_common/_services/CurrentBudget.service'
 import { AddCategoryPopupComponent } from './_common/popups/add-category-popup/add-category-popup.component';
 import { AddTransactionPopupComponent } from './_common/popups/add-transaction-popup/add-transaction-popup.component';
 import { FabComponent } from './_common/fab/fab.component';
+import { CurrencySymbolComponent } from './_common/currency-symbol/currency-symbol.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { FabComponent } from './_common/fab/fab.component';
     CategoriesListComponent,
     AddCategoryPopupComponent,
     AddTransactionPopupComponent,
+    CurrencySymbolComponent,
   ],
   imports: [
     BrowserModule,
