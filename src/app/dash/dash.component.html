@@ -7,11 +7,10 @@
                 <!-- <div class="card-img-overlay"> -->
                     <div class="card-header display-7 app-shadow" style="background-color: unset; border-bottom: unset;">Default account</div>
                     <div class="card-body">
-                      <div class="display-4 card-title app-shadow">
-                        {{systemDefaultAccountBalance}}</div>
-                      <div class="">
-    
-                      </div>
+                        <div class="display-4 card-title app-shadow">
+                            <app-currency-symbol class="display-6"></app-currency-symbol>
+                            {{ systemDefaultAccountBalance | number : '1.2-2' }}
+                        </div>
                     </div>
                 <!-- </div> -->
             </div>

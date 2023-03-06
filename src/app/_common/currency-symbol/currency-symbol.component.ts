@@ -12,6 +12,10 @@ export class CurrencySymbolComponent implements OnDestroy {
 
   @Input()
   currencyCode: string = '';
+
+  @Input()
+  fonsSize: string = '';
+
   icon: any;
   unsubscribeNotifier = new Subject();
 
@@ -21,6 +25,7 @@ export class CurrencySymbolComponent implements OnDestroy {
   }
 
   constructor(private _currencyService: CurrencyService) {
+    
     if (this.currencyCode) {
       this.icon = this.allIcons[this.currencyCode];
     } else {
@@ -29,6 +34,14 @@ export class CurrencySymbolComponent implements OnDestroy {
     });
     }
   }
+
+  getStyle() {
+    if (this.fonsSize) {
+      return 'font-size: ' + this.fonsSize + 'rem';
+    }
+    return 'font-size: unset';
+  }
+
   ngOnDestroy(): void {
     this.unsubscribeNotifier.next(null);
   }
