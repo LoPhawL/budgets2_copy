@@ -1,0 +1,22 @@
+<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+	<ngb-panel>
+		<ng-template ngbPanelTitle>
+			<div class="d-flex justify-content">
+                 <div class="">
+                    Category name
+                 </div>
+                 <div class="w-25">
+                    <ngb-progressbar [showValue]="true" type="success" [value]="25"></ngb-progressbar>
+                 </div>
+            </div>
+		</ng-template>
+		<ng-template ngbPanelContent>
+			
+		</ng-template>
+	</ngb-panel>
+</ngb-accordion>
+
+<p></p>
+<!-- <p><ngb-progressbar [showValue]="true" type="info" [value]="50"></ngb-progressbar></p>
+<p><ngb-progressbar [showValue]="true" type="warning" [value]="150" [max]="200"></ngb-progressbar></p>
+<p><ngb-progressbar [showValue]="true" type="danger" [value]="150" [max]="150"></ngb-progressbar></p> -->

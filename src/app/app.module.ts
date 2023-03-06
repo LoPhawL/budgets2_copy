@@ -17,6 +17,8 @@ import { AddCategoryPopupComponent } from './_common/popups/add-category-popup/a
 import { AddTransactionPopupComponent } from './_common/popups/add-transaction-popup/add-transaction-popup.component';
 import { FabComponent } from './_common/fab/fab.component';
 import { CurrencySymbolComponent } from './_common/currency-symbol/currency-symbol.component';
+import { CategoriesMetricsComponent } from './dash/categories-metrics/categories-metrics.component';
+import { MetricsCardsListComponent } from './dash/metrics-cards-list/metrics-cards-list.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { CurrencySymbolComponent } from './_common/currency-symbol/currency-symb
     AddCategoryPopupComponent,
     AddTransactionPopupComponent,
     CurrencySymbolComponent,
+    CategoriesMetricsComponent,
+    MetricsCardsListComponent,
   ],
   imports: [
     BrowserModule,
