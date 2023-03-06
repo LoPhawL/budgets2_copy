@@ -19,7 +19,8 @@
           </span>
         </td>
         <td>
-          <fa-icon *ngIf="icons.currency" [icon]="icons.currency" style="font-size: 0.8rem"></fa-icon>
+          <!-- <fa-icon *ngIf="icons.currency" [icon]="icons.currency" style="font-size: 0.8rem"></fa-icon> -->
+          <app-currency-symbol fonsSize="0.8"></app-currency-symbol>
           {{ category.maxMonthly | number}}
         </td>
         <td>{{ category.description }}</td>
