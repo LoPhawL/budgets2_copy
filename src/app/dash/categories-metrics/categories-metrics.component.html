@@ -1,19 +1,19 @@
 <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
 	<ngb-panel class="" style="padding: 0">
 		<ng-template ngbPanelTitle>
-			<div class="d-flex w-75 w-sm-100 w-md-100 w-lg-75" style="justify-content: space-between;">
-                 <div class="w-sm-50 w-md-25 w-lg-25">
+			<div class="row w-100" style=" display: flex; justify-content: space-between;">
+                 <div class="col-sm-5 w-md-4 w-lg-4">
                     Category name
                  </div>
-                 <div class="w-sm-50 w-md-75 w-lg-75 d-flex" style="justify-content: space-between;">
+                 <div class="col-sm-5 col-md-8 col-lg-8 row">
                     <!-- hide below div in small screens -->
-                    <div class="w-sm-0 w-md-50 w-lg-50">
+                    <div class="col-md-6 col-lg-6">
                       Spent
                       <app-currency-symbol fonsSize="0.9"></app-currency-symbol>850
                       of
                       <app-currency-symbol fonsSize="0.9"></app-currency-symbol>850
                     </div>
-                    <div class="w-sm-100 w-md-50 w-lg-50">
+                    <div class="col-sm-12 col-md-6 col-lg-6">
                       <ngb-progressbar [showValue]="true" type="success" [value]="25"></ngb-progressbar>
                     </div>
                  </div>
@@ -29,3 +29,21 @@
 <!-- <p><ngb-progressbar [showValue]="true" type="info" [value]="50"></ngb-progressbar></p>
 <p><ngb-progressbar [showValue]="true" type="warning" [value]="150" [max]="200"></ngb-progressbar></p>
 <p><ngb-progressbar [showValue]="true" type="danger" [value]="150" [max]="150"></ngb-progressbar></p> -->
+
+<!-- <div class="d-flex w-sm-100 w-md-100 w-lg-75" style="justify-content: space-between;">
+   <div class="w-sm-50 w-md-25 w-lg-25">
+      Category name
+   </div>
+   <div class="w-sm-50 w-md-75 w-lg-75 d-flex" style="justify-content: space-between;">
+      <!- - hide below div in small screens -- >
+      <div class="w-sm-0 w-md-50 w-lg-50">
+        Spent
+        <app-currency-symbol fonsSize="0.9"></app-currency-symbol>850
+        of
+        <app-currency-symbol fonsSize="0.9"></app-currency-symbol>850
+      </div>
+      <div class="w-sm-100 w-md-50 w-lg-50">
+        <ngb-progressbar [showValue]="true" type="success" [value]="25"></ngb-progressbar>
+      </div>
+   </div>
+</div> -->
