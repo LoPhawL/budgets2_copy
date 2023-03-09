@@ -1,31 +1,30 @@
-<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-	<ngb-panel class="" style="padding: 0">
-		<ng-template ngbPanelTitle>
-			<div class="row w-100" style=" display: flex; justify-content: space-between;">
-                 <div class="col-sm-5 w-md-4 w-lg-4">
-                    Category name
-                 </div>
-                 <div class="col-sm-5 col-md-8 col-lg-8 row">
-                    <!-- hide below div in small screens -->
-                    <div class="col-md-6 col-lg-6">
-                      Spent
-                      <app-currency-symbol fonsSize="0.9"></app-currency-symbol>850
-                      of
-                      <app-currency-symbol fonsSize="0.9"></app-currency-symbol>850
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6">
-                      <ngb-progressbar [showValue]="true" type="success" [value]="25"></ngb-progressbar>
-                    </div>
-                 </div>
+
+<div class="col-sm-12 col-md-9 col-lg-9 col-xl-9 mt-3 mb-3">
+   <ngb-accordion #acc="ngbAccordion">
+      <ngb-panel *ngFor="let category of categories">
+         <ng-template ngbPanelTitle style="padding-top: 9px; padding-bottom: 9px;">
+            <div class="row w-100">
+               <div class="col-sm-5 col-md-4 col-lg-4">
+                  {{category.name}}
+               </div>
+               <div class="col-sm-5 col-md-8 col-lg-8 row">
+                  <div class="d-none d-md-block col-md-6 col-lg-6">
+                     Spent&nbsp;&nbsp;<app-currency-symbol fonsSize="0.9"></app-currency-symbol>850&nbsp;&nbsp;of&nbsp;&nbsp;<app-currency-symbol fonsSize="0.9"></app-currency-symbol>850
+                  </div>
+                  <div class="col-sm-12 col-md-6 col-lg-6">
+                     <ngb-progressbar [showValue]="true" type="success" [value]="25"></ngb-progressbar>
+                  </div>
+               </div>
             </div>
-		</ng-template>
-		<ng-template ngbPanelContent>
+         </ng-template>
 
-		</ng-template>
-	</ngb-panel>
-</ngb-accordion>
+         <ng-template ngbPanelContent>
+   
+         </ng-template>
+      </ngb-panel>
+   </ngb-accordion>
+</div>
 
-<p></p>
 <!-- <p><ngb-progressbar [showValue]="true" type="info" [value]="50"></ngb-progressbar></p>
 <p><ngb-progressbar [showValue]="true" type="warning" [value]="150" [max]="200"></ngb-progressbar></p>
 <p><ngb-progressbar [showValue]="true" type="danger" [value]="150" [max]="150"></ngb-progressbar></p> -->
