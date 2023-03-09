@@ -143,7 +143,7 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     const transaction: Partial<ITransaction> = {
       note: String(this.transactionForm.get('transactionNote')?.value),
       transactionType: String(this.transactionForm.get('transactionType')?.value),
-      category: this.transactionForm.get('catrgory')?.value || null,
+      category: this.transactionForm.get('category')?.value || null,
       amount: Number(this.transactionForm.get('amount')?.value),
       date: new Date(),
       tags: {},
@@ -152,7 +152,6 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     transaction.date = new Date();
     const transactionTypeRulesForCalculation = JSON.parse(JSON.stringify(this.ALL_TRANSACTIONTYPES[transaction.transactionType!].rules!)) as ITransactionRule[];
     const selectedTransactionRuleAccountControls = (this.transactionForm.get('accountsToTransact') as FormArray).controls;
-    console.log(1, transactionTypeRulesForCalculation);
 
     for (let ruleAccountControl of selectedTransactionRuleAccountControls) {
 
