@@ -40,7 +40,8 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     private _accountsService: AccountsService,
     private _fsService: FirestoreService,
     private _currentBudgetService: CurrentBudgetService,
-    private _currentModal: NgbActiveModal
+    private _currentModal: NgbActiveModal,
+    private _commonDataService: CommonDataService
   ) {
     this.transactionForm = new FormGroup({
       transactionNote: new FormControl(null),
@@ -167,7 +168,9 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     const batch = this._fsService.getBatch();
     this._currentBudgetService.saveTransaction(transaction, batch);
     modifiedAccounts.forEach(account => this._accountsService.saveAccount(account, batch))
-    batch.commit().then( () => this._currentModal.close('added') );
+    batch.commit()
+    .then( () => this._commonDataService.newTransactionCommitted.next(transaction) )
+    .then( () => this._currentModal.close('added') );
   }
 }
 

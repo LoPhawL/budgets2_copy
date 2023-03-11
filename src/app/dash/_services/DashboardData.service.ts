@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { collection, doc, query } from "firebase/firestore";
+import { collection, DocumentData, getDocs, query, QuerySnapshot, where } from "firebase/firestore";
 import { CurrentBudgetService } from "src/app/_common/_services/CurrentBudget.service";
 import { FirestoreService } from "src/app/_common/_services/Firestore.service";
 
@@ -12,9 +12,9 @@ export class DashboardDataService{
         private _currentBudgetService: CurrentBudgetService
     ) {}
 
-    getTotalExpenseForCategories(categoryIds: string[]) {
-        // const docRef = collection(this._fsService.db, this._currentBudgetService.currentBudgetRef);
-        // const docRef = doc(this._fsService.db, this._currentBudgetService.currentBudgetRef);
-        // const qry = query(docRef, where("") )
+    getTotalExpenseForCategories(categoryIds: string[]): Promise<QuerySnapshot<DocumentData>> {
+        const colRef = collection(this._fsService.db, this._currentBudgetService.currentBudgetRef, 'transactions');
+        const qry = query(colRef, where('category', 'in', categoryIds) );
+        return getDocs(qry);
     }
 }

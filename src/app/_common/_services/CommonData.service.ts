@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
 import { collection, onSnapshot, QuerySnapshot, Unsubscribe } from 'firebase/firestore';
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import { FirestoreService } from 'src/app/_common/_services/Firestore.service';
 import { IParsedDocument } from "../_models/IParsedDocument";
+import { ITransaction } from "../_models/ITransaction";
 import { CategoriesMap, Category } from "../_models/TransactionCategory";
 import { TransactionType, TransactionTypesMap } from "../_models/TransactionType";
 import { SerializerService } from "./Serializer.service";
@@ -21,6 +22,8 @@ export class CommonDataService {
   private _transactionTypesRef = 'transactionTypes';
   private _ALL_TRANSACTIONTYPES: TransactionTypesMap = {};
   public TRANSACTIONTYPES_CHANGED = new BehaviorSubject<IParsedDocument<TransactionType>>({keys: [], values: {}, length: 0});
+
+  public newTransactionCommitted = new Subject<Partial<ITransaction>>();
 
   constructor(
     private _fsService: FirestoreService,

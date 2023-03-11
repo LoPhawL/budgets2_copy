@@ -60,13 +60,7 @@ export class CurrentBudgetService {
 
   saveTransaction(transaction: Partial<ITransaction>, batch: WriteBatch) {
 
-    // const transactionTypeBasedColRef = this.currentBudgetRef + '/' + transaction.transactionType;
-    // const id = collection(this._fsService.db, this.currentBudgetRef, '/', transaction.transactionType). .id;
     const id = transaction.date?.getTime() + '';
-    const document: {[key:string]: Partial<ITransaction>} = {};
-    document[id] = transaction;
-    batch.update(doc(this._fsService.db, this.currentBudgetRef, '/'), document);
-
-    // batch.set(this._fsService, this.currentBudgetRef, {})
+    batch.set(doc(collection(this._fsService.db, this.currentBudgetRef, 'transactions'), id), transaction);
   }
 }
