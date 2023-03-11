@@ -28,11 +28,13 @@ export class SerializerService {
       delete localDataStore[doc.id];
     } else if (localDataStore[doc.id]) {
       localDataStore[doc.id] = doc.data({}) as unknown as T1;
+      localDataStore[doc.id].id = doc.id;
       if (namedDocName) {
         this._toastr.info(`The ${entityName.toLowerCase()} '${namedDocName}' just got updated.`);
       }
     } else {
       localDataStore[doc.id] = doc.data() as unknown as T1;
+      localDataStore[doc.id].id = doc.id;
     }
   }
   const keys = Object.keys(localDataStore);
