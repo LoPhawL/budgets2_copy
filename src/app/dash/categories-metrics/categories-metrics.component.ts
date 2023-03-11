@@ -44,6 +44,8 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
   }
 
   private getTotalExpenseOfCategories() {
-    this._dashDataService.getTotalExpenseForCategories(this.categories.map(categ => String(categ.id)));
+    if (this.categories.length) {
+      this._dashDataService.getTotalExpenseForCategories(this.categories.map(categ => String(categ.id)));
+    }
   }
 }
