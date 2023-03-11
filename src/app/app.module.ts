@@ -19,6 +19,7 @@ import { FabComponent } from './_common/fab/fab.component';
 import { CurrencySymbolComponent } from './_common/currency-symbol/currency-symbol.component';
 import { CategoriesMetricsComponent } from './dash/categories-metrics/categories-metrics.component';
 import { MetricsCardsListComponent } from './dash/metrics-cards-list/metrics-cards-list.component';
+import { NavbComponent } from './_common/navb/navb.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { MetricsCardsListComponent } from './dash/metrics-cards-list/metrics-car
     CurrencySymbolComponent,
     CategoriesMetricsComponent,
     MetricsCardsListComponent,
+    NavbComponent,
   ],
   imports: [
     BrowserModule,

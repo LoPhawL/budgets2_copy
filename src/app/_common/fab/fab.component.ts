@@ -16,9 +16,7 @@ import { AddTransactionPopupComponent } from '../popups/add-transaction-popup/ad
 export class FabComponent {
   faPlusCircle = faPlusCircle;
 
-  constructor(private _modalService: NgbModal, private _toastr: ToastrService,) {
-
-  }
+  constructor(private _modalService: NgbModal, private _toastr: ToastrService) {}
 
   AddTransaction() {
 
