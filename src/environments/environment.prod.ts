@@ -1,5 +1,7 @@
 export const environment = {
     production: true,
+
+    titleSuffix: "",
     
     apiKey: "AIzaSyCHITCILpTHgVvjjEYN59eFzAzXciIb7xE",
     authDomain: "budgets-p.firebaseapp.com",
