@@ -34,7 +34,7 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
     this._commonDataService.CATEGORIES_CHANGED
     .pipe(takeUntil(this._unsubscribeNotifier))
     .subscribe(catagoriesData => {
-
+      this.categories = [];
       catagoriesData.keys.forEach(incomingCategories => {
         const categ = catagoriesData.values[incomingCategories];
         this.categories.push(categ);
@@ -57,10 +57,12 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
   private computeTotalExpenseOfCategories() {
     if (this.categories.length) {
       this._dashDataService.getTotalExpenseForCategories(this.categories.map(categ => String(categ.id)))
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          const docData: any = doc.data();
-          this.consolidatedExpense[docData.category] = (this.consolidatedExpense[docData.category] || 0) + docData.amount;
+      .then(querySnapshots => {
+        querySnapshots.forEach(querySnapshot => {
+            querySnapshot.forEach(doc => {
+              const docData: any = doc.data();
+              this.consolidatedExpense[docData.category] = (this.consolidatedExpense[docData.category] || 0) + docData.amount;
+            });
         });
       });
     }
