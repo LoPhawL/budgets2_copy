@@ -1,7 +1,7 @@
 export class NamedDocument {
 
   public id: string;
-  public name: string;
+  public name?: string;
 
   constructor(id: string, name: string) {
     this.id = id;

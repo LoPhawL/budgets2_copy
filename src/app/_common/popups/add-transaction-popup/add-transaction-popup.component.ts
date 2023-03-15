@@ -169,7 +169,7 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     this._currentBudgetService.saveTransaction(transaction, batch);
     modifiedAccounts.forEach(account => this._accountsService.saveAccount(account, batch))
     batch.commit()
-    .then( () => this._commonDataService.newTransactionCommitted.next(transaction) )
+    // .then( () => this._commonDataService.newTransactionCommitted.next(transaction) )
     .then( () => this._currentModal.close('added') );
   }
 }

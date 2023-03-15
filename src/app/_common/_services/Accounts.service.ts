@@ -12,12 +12,12 @@ import { SerializerService } from "./Serializer.service";
 })
 export class AccountsService {
 
-  public ACCOUNTS_CHANGED = new BehaviorSubject<IParsedDocument<Account>>({keys: [], values: {}, length: 0});
+  public ACCOUNTS_CHANGED = new BehaviorSubject<IParsedDocument<Account>>({ keys: [], values: {}, length: 0, raw: [] });
   public defaultAccount: Account | null = null;
   private accountsRef = 'accounts';
   private _ALL_ACCOUNTS: AccountsMap = {};
 
-  private emittedAccounts: IParsedDocument<Account> = {keys: [], values: {}, length: 0};
+  private emittedAccounts: IParsedDocument<Account> = { keys: [], values: {}, length: 0, raw: [] };
 
   private _unsubscribe: Unsubscribe[] = [];
 
@@ -27,7 +27,7 @@ export class AccountsService {
   ) {
 
     const unsubscribeAccounts = onSnapshot<AccountsMap>(collection(this._fsService.db, this.accountsRef), (col: QuerySnapshot<AccountsMap>) => {
-      this._serializerService.serializeNamedDocumentsInCollectionAndEmit<AccountsMap, Account>
+      this._serializerService.serializeDocumentsInCollectionAndEmit<AccountsMap, Account>
         (col, this._ALL_ACCOUNTS, 'account', this.ACCOUNTS_CHANGED);
     });
     this._unsubscribe.push(unsubscribeAccounts);

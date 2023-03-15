@@ -12,16 +12,16 @@ export class DashboardDataService{
         private _currentBudgetService: CurrentBudgetService
     ) {}
 
-    getTotalExpenseForCategories(categoryIds: string[]): Promise<QuerySnapshot<DocumentData>[]> {
+    // getTotalExpenseForCategories(categoryIds: string[]): Promise<QuerySnapshot<DocumentData>[]> {
 
-        const queryFragments = [];
-        const colRef = collection(this._fsService.db, this._currentBudgetService.currentBudgetRef, 'transactions');
+    //     const queryFragments = [];
+    //     const colRef = collection(this._fsService.db, this._currentBudgetService.currentBudgetRef, 'transactions');
 
-        while (categoryIds.length) {
-          const catsFragment = categoryIds.splice(0,10);
-          queryFragments.push(getDocs(query(colRef, where('category', 'in', catsFragment))));
-        }
+    //     while (categoryIds.length) {
+    //       const catsFragment = categoryIds.splice(0,10);
+    //       queryFragments.push(getDocs(query(colRef, where('category', 'in', catsFragment))));
+    //     }
 
-        return Promise.all(queryFragments).then(categs => categs.flat());
-    }
+    //     return Promise.all(queryFragments).then(categs => categs.flat());
+    // }
 }
