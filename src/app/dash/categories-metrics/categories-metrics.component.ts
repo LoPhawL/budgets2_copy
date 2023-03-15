@@ -65,7 +65,6 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
     const dayPercent = today/totalDays*100;
 
     const allowedToActual = spentPercent/dayPercent*100;
-    console.log(allowedToActual);
 
     if(allowedToActual < 30) {
       return 'success';
