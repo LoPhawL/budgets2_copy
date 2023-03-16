@@ -31,8 +31,10 @@ export class SerializerService {
     emittable: BehaviorSubject<IParsedDocument<T1>>
   ) {
     const rawDocsData: Partial<T1>[] = Object.values(localDataStore);
-    let lC = 0;
-    for (let docChange of col.docChanges()) {
+    let dcChanges = col.docChanges();
+    console.log(entityName + ' - ' + dcChanges.length);
+    
+    for (let docChange of dcChanges) {
       const doc = docChange.doc;
       const namedDocName = localDataStore[doc.id]?.name;
       if (docChange.type === 'removed') {
@@ -40,7 +42,7 @@ export class SerializerService {
           this._toastr.info(`The ${entityName.toLowerCase()} '${namedDocName}' is deleted.`);
         }
         delete localDataStore[doc.id];
-      } else if (localDataStore[doc.id]) {
+      } else if (localDataStore[doc.id]) { // docChange.type === 'modified'
         const t = doc.data({}) as unknown as T1;
         localDataStore[doc.id] = t;
         localDataStore[doc.id].id = doc.id;

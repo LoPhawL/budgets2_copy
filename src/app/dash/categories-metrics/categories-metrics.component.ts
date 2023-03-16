@@ -36,6 +36,8 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
     this._commonDataService.CATEGORIES_CHANGED
     .pipe(takeUntil(this._unsubscribeNotifier))
     .subscribe(catagoriesData => {
+      console.log('incoming - ct', catagoriesData);
+      
       this.categories = [];
       catagoriesData.keys.forEach(incomingCategories => {
         const categ = catagoriesData.values[incomingCategories];
@@ -48,6 +50,7 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
     this._commonDataService.TRANSACTIONS_CHANGED
     .pipe(takeUntil(this._unsubscribeNotifier))
     .subscribe( transactions => {
+      console.log('incoming - tr', transactions);
       this.all_transactions = transactions.raw;
       this.computeTotalExpenseOfCategories();
     });
@@ -82,10 +85,13 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
     if (this.categories.length) {
       const expenseCategories = this.getExpenseCategoriesForDisplay();
       expenseCategories.forEach(cat => this.consolidatedExpenses[cat.id!] = 0);
+      this.consolidatedExpenses['uncategorized'] = 0;
 
       this.all_transactions.forEach(trns => {
         if(trns.category) {
           this.consolidatedExpenses[trns.category] += trns.amount;
+        } else {
+          this.consolidatedExpenses['uncategorized'] += trns.amount;
         }
       });
     }
