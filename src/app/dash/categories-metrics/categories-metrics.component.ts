@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { ITransaction } from 'src/app/_common/_models/ITransaction';
+import { ITransaction, ITransactionsMap } from 'src/app/_common/_models/ITransaction';
 import { Category } from 'src/app/_common/_models/TransactionCategory';
 import { CommonDataService } from 'src/app/_common/_services/CommonData.service';
 import { DashboardDataService } from '../_services/DashboardData.service';
@@ -19,11 +19,13 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
   // considerations: budgeted categoties vs non-budgeted categories.
 
   public categories: Partial<Category>[] = [];
-  public consolidatedExpense: any = {};
+  public consolidatedExpenses: any = {};
+
+  public all_transactions: Partial<ITransaction>[] = [];
 
   constructor(
-    private _commonDataService: CommonDataService,
-    private _dashDataService: DashboardDataService
+    private _commonDataService: CommonDataService
+    // private _dashDataService: DashboardDataService
   ) {}
 
   ngOnDestroy(): void {
@@ -43,28 +45,51 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
       this.computeTotalExpenseOfCategories();
     });
 
-    this._commonDataService.newTransactionCommitted.subscribe( (transaction: Partial<ITransaction>) => {
-      if (transaction.transactionType === 'expense') {
-        this.consolidatedExpense[transaction.category!] = (this.consolidatedExpense[transaction.category!] || 0) + transaction.amount;
-      }
-    })
+    this._commonDataService.TRANSACTIONS_CHANGED
+    .pipe(takeUntil(this._unsubscribeNotifier))
+    .subscribe( transactions => {
+      this.all_transactions = transactions.raw;
+      this.computeTotalExpenseOfCategories();
+    });
   }
 
-  public getCategoriesForDisplay() {
+  public getExpenseCategoriesForDisplay() {
     return this.categories.filter(cat => cat.transactionType === 'expense');
+  }
+
+  public getCategoryBarColor(spentPercent: number) {
+    const date = new Date();
+    const today = date.getDate();
+    const totalDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
+
+    const dayPercent = today/totalDays*100;
+
+    const allowedToActual = spentPercent/dayPercent*100;
+
+    if(allowedToActual < 30) {
+      return 'success';
+    }
+    if (allowedToActual <= 100) {
+      return 'info';
+    }
+    if (allowedToActual <= 150) {
+      return 'warning';
+    }
+    return 'danger';
   }
 
   private computeTotalExpenseOfCategories() {
     if (this.categories.length) {
-      this._dashDataService.getTotalExpenseForCategories(this.categories.map(categ => String(categ.id)))
-      .then(querySnapshots => {
-        querySnapshots.forEach(querySnapshot => {
-            querySnapshot.forEach(doc => {
-              const docData: any = doc.data();
-              this.consolidatedExpense[docData.category] = (this.consolidatedExpense[docData.category] || 0) + docData.amount;
-            });
-        });
+      const expenseCategories = this.getExpenseCategoriesForDisplay();
+      expenseCategories.forEach(cat => this.consolidatedExpenses[cat.id!] = 0);
+
+      this.all_transactions.forEach(trns => {
+        if(trns.category) {
+          this.consolidatedExpenses[trns.category] += trns.amount;
+        }
       });
     }
   }
+
+
 }

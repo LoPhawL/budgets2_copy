@@ -19,7 +19,6 @@ export class TransactionType extends NamedDocument {
     this.isUserEditable = isUserEditable;
     this.rules = rules;
   }
-
 }
 
 export class TransactionTypesMap implements INamedDocumentsMap<TransactionType> {
