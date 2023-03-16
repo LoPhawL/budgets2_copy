@@ -1,0 +1,44 @@
+import { DocumentChangeType } from "firebase/firestore";
+import { ITransaction } from "src/app/_common/_models/ITransaction";
+
+export class ConsolidatedCategory {
+  public categoryId: string;
+  public transactions: ITransaction[];
+  public categoryTotal: number;
+
+  constructor(categoryId: string) {
+    this.categoryId = categoryId;
+    this.transactions = [];
+    this.categoryTotal = 0;
+  }
+
+  addTransaction(transaction: ITransaction, mode: DocumentChangeType) {
+    if (transaction.category === this.categoryId) {
+      if (mode === 'added') {
+        this.transactions.push(transaction);
+
+        this.categoryTotal += transaction.amount;
+      } else if (mode === 'removed') {
+        const transInStore = this.transactions.find(trans => trans.id === transaction.id)!;
+        const index = this.transactions.indexOf(transInStore);
+        this.transactions.splice(index, 1);
+
+        this.categoryTotal -= transaction.amount;
+      } else {
+        const transInStore = this.transactions.find(trans => trans.id === transaction.id)!;
+        const index = this.transactions.indexOf(transInStore);
+
+        const oldAmount = transInStore.amount;
+        const newAmount = transaction.amount;
+
+        this.transactions.splice(index, 1);
+        this.transactions.push(transaction);
+
+        if(oldAmount !== newAmount) {
+          this.categoryTotal -= oldAmount;
+          this.categoryTotal += newAmount;
+        }
+      }
+    }
+  }
+}

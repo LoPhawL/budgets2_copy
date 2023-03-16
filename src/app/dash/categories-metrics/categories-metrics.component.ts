@@ -21,7 +21,8 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
   public categories: Partial<Category>[] = [];
   public consolidatedExpenses: any = {};
 
-  public all_transactions: Partial<ITransaction>[] = [];
+
+  // public all_transactions: Partial<ITransaction>[] = [];
 
   constructor(
     private _commonDataService: CommonDataService
@@ -37,7 +38,7 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this._unsubscribeNotifier))
     .subscribe(catagoriesData => {
       console.log('incoming - ct', catagoriesData);
-      
+
       this.categories = [];
       catagoriesData.keys.forEach(incomingCategories => {
         const categ = catagoriesData.values[incomingCategories];
@@ -50,9 +51,13 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
     this._commonDataService.TRANSACTIONS_CHANGED
     .pipe(takeUntil(this._unsubscribeNotifier))
     .subscribe( transactions => {
-      console.log('incoming - tr', transactions);
-      this.all_transactions = transactions.raw;
-      this.computeTotalExpenseOfCategories();
+
+      // console.log('incoming - tr', transactions);
+
+      // this.all_transactions = transactions.raw;
+      // this.computeTotalExpenseOfCategories();
+
+
     });
   }
 
@@ -64,9 +69,7 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
     const date = new Date();
     const today = date.getDate();
     const totalDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
-
     const dayPercent = today/totalDays*100;
-
     const allowedToActual = spentPercent/dayPercent*100;
 
     if(allowedToActual < 30) {
@@ -87,13 +90,13 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
       expenseCategories.forEach(cat => this.consolidatedExpenses[cat.id!] = 0);
       this.consolidatedExpenses['uncategorized'] = 0;
 
-      this.all_transactions.forEach(trns => {
-        if(trns.category) {
-          this.consolidatedExpenses[trns.category] += trns.amount;
-        } else {
-          this.consolidatedExpenses['uncategorized'] += trns.amount;
-        }
-      });
+      // this.all_transactions.forEach(trns => {
+      //   if(trns.category) {
+      //     this.consolidatedExpenses[trns.category] += trns.amount;
+      //   } else {
+      //     this.consolidatedExpenses['uncategorized'] += trns.amount;
+      //   }
+      // });
     }
   }
 

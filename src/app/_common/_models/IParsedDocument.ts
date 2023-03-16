@@ -5,4 +5,5 @@ export interface IParsedDocument<T extends NamedDocument> {
   values: INamedDocumentsMap<T>;
   length: number;
   raw: Partial<T>[];
+  rawChangeSet?: any
 }

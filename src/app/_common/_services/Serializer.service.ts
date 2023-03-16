@@ -33,9 +33,13 @@ export class SerializerService {
     const rawDocsData: Partial<T1>[] = Object.values(localDataStore);
     let dcChanges = col.docChanges();
     console.log(entityName + ' - ' + dcChanges.length);
-    
+    const rawChangeSet: any = {};
     for (let docChange of dcChanges) {
       const doc = docChange.doc;
+      rawChangeSet[doc.id] = {
+        type: docChange.type,
+      };
+
       const namedDocName = localDataStore[doc.id]?.name;
       if (docChange.type === 'removed') {
         if(namedDocName) {
@@ -45,6 +49,7 @@ export class SerializerService {
       } else if (localDataStore[doc.id]) { // docChange.type === 'modified'
         const t = doc.data({}) as unknown as T1;
         localDataStore[doc.id] = t;
+        rawChangeSet[doc.id].doc = t;
         localDataStore[doc.id].id = doc.id;
         rawDocsData.push(t);
         if (namedDocName) {
@@ -52,12 +57,13 @@ export class SerializerService {
         }
       } else {
         const t = doc.data() as unknown as T1;
+        rawChangeSet[doc.id].doc = t;
         rawDocsData.push(t);
         localDataStore[doc.id] = t;
         localDataStore[doc.id].id = doc.id;
       }
     }
     const keys = Object.keys(localDataStore);
-    emittable.next({ keys, values: localDataStore, length: keys.length, raw: rawDocsData });
+    emittable.next({ keys, values: localDataStore, length: keys.length, raw: rawDocsData, rawChangeSet });
 }
 }
