@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { QuerySnapshot } from "firebase/firestore";
+import { DocumentChange, DocumentChangeType, QuerySnapshot } from "firebase/firestore";
 import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject } from "rxjs";
 import { INamedDocumentsMap, NamedDocument } from "../_models/INamedDocument";
@@ -12,18 +12,6 @@ export class SerializerService {
 
   constructor(private _toastr: ToastrService) {}
 
-  // public serializeDOcumentsAndEmit<T, T1>(
-  //   col: QuerySnapshot<T>,
-  //   localDataStore: T1,
-  //   entityName: string,
-  //   emittable: BehaviorSubject<T1>
-  // ) {
-  //   for (let docChange of col.docChanges()) {
-  //     const doc = docChange.doc;
-
-  //   }
-  // }
-
   public serializeDocumentsInCollectionAndEmit<T, T1 extends NamedDocument>(
     col: QuerySnapshot<T>,
     localDataStore: INamedDocumentsMap<T1>,
@@ -32,8 +20,8 @@ export class SerializerService {
   ) {
     const rawDocsData: Partial<T1>[] = Object.values(localDataStore);
     let dcChanges = col.docChanges();
-    console.log(entityName + ' - ' + dcChanges.length);
-    const rawChangeSet: any = {};
+    // console.log(entityName + ' - ' + dcChanges.length);
+    const rawChangeSet: { [key: string]: Partial<{ type: DocumentChangeType, doc: T1 }> } = {};
     for (let docChange of dcChanges) {
       const doc = docChange.doc;
       rawChangeSet[doc.id] = {

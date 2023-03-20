@@ -18,15 +18,15 @@ export class CommonDataService {
 
   private _categoriesRef = 'categories';
 	private _ALL_CATEGORIES: CategoriesMap = {};
-  public CATEGORIES_CHANGED = new BehaviorSubject<IParsedDocument<Category>>({keys: [], values: {}, length: 0, raw: []});
+  public CATEGORIES_CHANGED = new BehaviorSubject<IParsedDocument<Category>>({keys: [], values: {}, length: 0, raw: [], rawChangeSet: {} });
 
   private _transactionTypesRef = 'transactionTypes';
   private _ALL_TRANSACTIONTYPES: TransactionTypesMap = {};
-  public TRANSACTIONTYPES_CHANGED = new BehaviorSubject<IParsedDocument<TransactionType>>({keys: [], values: {}, length: 0, raw: []});
+  public TRANSACTIONTYPES_CHANGED = new BehaviorSubject<IParsedDocument<TransactionType>>({keys: [], values: {}, length: 0, raw: [], rawChangeSet: {} });
 
   private _transactionsRef = 'transactions';
   private _ALL_TRANSACTIONS: ITransactionsMap = {};
-  public  TRANSACTIONS_CHANGED = new BehaviorSubject<IParsedDocument<ITransaction>>({keys: [], values: {}, length: 0, raw: []});
+  public  TRANSACTIONS_CHANGED = new BehaviorSubject<IParsedDocument<ITransaction>>({keys: [], values: {}, length: 0, raw: [], rawChangeSet: {} });
 
   // public newTransactionCommitted = new Subject<Partial<ITransaction>>();
 

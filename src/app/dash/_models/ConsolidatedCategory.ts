@@ -5,11 +5,13 @@ export class ConsolidatedCategory {
   public categoryId: string;
   public transactions: ITransaction[];
   public categoryTotal: number;
+  public transactionType: string = '';
 
   constructor(categoryId: string) {
     this.categoryId = categoryId;
     this.transactions = [];
     this.categoryTotal = 0;
+    // this.transactionType = transactionType;
   }
 
   addTransaction(transaction: ITransaction, mode: DocumentChangeType) {
