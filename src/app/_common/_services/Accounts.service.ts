@@ -12,12 +12,12 @@ import { SerializerService } from "./Serializer.service";
 })
 export class AccountsService {
 
-  public ACCOUNTS_CHANGED = new BehaviorSubject<IParsedDocument<Account>>({ keys: [], values: {}, length: 0, raw: [] });
+  public ACCOUNTS_CHANGED = new BehaviorSubject<IParsedDocument<Account>>({ keys: [], values: {}, length: 0, raw: [], rawChangeSet: {} });
   public defaultAccount: Account | null = null;
   private accountsRef = 'accounts';
   private _ALL_ACCOUNTS: AccountsMap = {};
 
-  private emittedAccounts: IParsedDocument<Account> = { keys: [], values: {}, length: 0, raw: [] };
+  private emittedAccounts: IParsedDocument<Account> = { keys: [], values: {}, length: 0, raw: [], rawChangeSet: {} };
 
   private _unsubscribe: Unsubscribe[] = [];
 

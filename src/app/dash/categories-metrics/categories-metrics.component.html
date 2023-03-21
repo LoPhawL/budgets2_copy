@@ -1,7 +1,7 @@
 
 <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9 mt-3 mb-3">
    <ngb-accordion #acc="ngbAccordion">
-      <ngb-panel *ngFor="let category of getExpenseCategoriesForDisplay()">
+      <ngb-panel *ngFor="let category of getExpenseCategoriesForDisplay()" #currentPanel>
          <ng-template ngbPanelTitle style="padding-top: 9px; padding-bottom: 9px;">
             <div class="row w-100">
                <div class="col-sm-5 col-md-4 col-lg-4">
@@ -10,20 +10,20 @@
                <div class="col-sm-5 col-md-8 col-lg-8 row">
                   <!-- <div class="d-none d-md-block col-md-6 col-lg-6"> -->
                   <div class="col-sm-12 col-md-5 col-lg-6">
-                     <span>Spent&nbsp;&nbsp;<app-currency-symbol fonsSize="0.9"></app-currency-symbol>{{consolidatedExpenses[category.id!] || 0 | number }}</span><span  *ngIf="category.maxMonthly">&nbsp;&nbsp;of&nbsp;&nbsp;<app-currency-symbol fonsSize="0.9"></app-currency-symbol>{{category.maxMonthly}}</span>
+                     <span>Spent&nbsp;&nbsp;<app-currency-symbol fonsSize="0.9"></app-currency-symbol>{{ consolidatedExpenses[category.id!].categoryTotal || 0 | number }}</span><span  *ngIf="category.maxMonthly">&nbsp;&nbsp;of&nbsp;&nbsp;<app-currency-symbol fonsSize="0.9"></app-currency-symbol>{{category.maxMonthly}}</span>
                   </div>
                   <div class="col-sm-12 col-md-6 col-lg-6" *ngIf="category.maxMonthly">
                      <ngb-progressbar
                      [showValue]="true"
-                     [type]="getCategoryBarColor(consolidatedExpenses[category.id!]/category.maxMonthly!*100)"
-                     [value]="consolidatedExpenses[category.id!]/category.maxMonthly!*100"></ngb-progressbar>
+                     [type]="getCategoryBarColor(consolidatedExpenses[category.id!].categoryTotal/category.maxMonthly!*100)"
+                     [value]="consolidatedExpenses[category.id!].categoryTotal/category.maxMonthly!*100"></ngb-progressbar>
                   </div>
                </div>
             </div>
          </ng-template>
 
          <ng-template ngbPanelContent>
-
+            <app-category-expenses [consolidatedExpenses]="consolidatedExpenses[category.id!]"></app-category-expenses>
          </ng-template>
       </ngb-panel>
    </ngb-accordion>

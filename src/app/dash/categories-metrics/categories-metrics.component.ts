@@ -3,7 +3,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ITransaction, ITransactionsMap } from 'src/app/_common/_models/ITransaction';
 import { Category } from 'src/app/_common/_models/TransactionCategory';
 import { CommonDataService } from 'src/app/_common/_services/CommonData.service';
-import { DashboardDataService } from '../_services/DashboardData.service';
+import { ConsolidatedCategory } from '../_models/ConsolidatedCategory';
 
 @Component({
   selector: 'app-categories-metrics',
@@ -19,9 +19,10 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
   // considerations: budgeted categoties vs non-budgeted categories.
 
   public categories: Partial<Category>[] = [];
-  public consolidatedExpenses: any = {};
+  public consolidatedExpenses: { [key: string]: ConsolidatedCategory } = {};
 
-  public all_transactions: Partial<ITransaction>[] = [];
+
+  // public all_transactions: Partial<ITransaction>[] = [];
 
   constructor(
     private _commonDataService: CommonDataService
@@ -36,20 +37,33 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
     this._commonDataService.CATEGORIES_CHANGED
     .pipe(takeUntil(this._unsubscribeNotifier))
     .subscribe(catagoriesData => {
+      // console.log('incoming - ct', catagoriesData);
+
       this.categories = [];
-      catagoriesData.keys.forEach(incomingCategories => {
-        const categ = catagoriesData.values[incomingCategories];
+      catagoriesData.keys.forEach(incomingCategory => {
+        const categ = catagoriesData.values[incomingCategory];
         this.categories.push(categ);
+
+        this.consolidatedExpenses[incomingCategory] = 
+          this.consolidatedExpenses[incomingCategory] ||
+          new ConsolidatedCategory(incomingCategory);
+        
+          this.consolidatedExpenses[incomingCategory].transactionType = categ.transactionType!;
       });
 
-      this.computeTotalExpenseOfCategories();
+      // this.computeTotalExpenseOfCategories();
     });
 
     this._commonDataService.TRANSACTIONS_CHANGED
     .pipe(takeUntil(this._unsubscribeNotifier))
     .subscribe( transactions => {
-      this.all_transactions = transactions.raw;
-      this.computeTotalExpenseOfCategories();
+
+      const transactions_raw_changeset = transactions.rawChangeSet;
+      for (let transKey of Object.keys(transactions_raw_changeset)) {
+        const cat = transactions_raw_changeset[transKey].doc!.category!;
+        const consolidatedExpense = this.consolidatedExpenses[cat] || new ConsolidatedCategory(cat);
+        consolidatedExpense.addTransaction(transactions_raw_changeset[transKey].doc!, transactions_raw_changeset[transKey].type!);
+      }
     });
   }
 
@@ -61,9 +75,7 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
     const date = new Date();
     const today = date.getDate();
     const totalDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
-
     const dayPercent = today/totalDays*100;
-
     const allowedToActual = spentPercent/dayPercent*100;
 
     if(allowedToActual < 30) {
@@ -77,19 +89,5 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
     }
     return 'danger';
   }
-
-  private computeTotalExpenseOfCategories() {
-    if (this.categories.length) {
-      const expenseCategories = this.getExpenseCategoriesForDisplay();
-      expenseCategories.forEach(cat => this.consolidatedExpenses[cat.id!] = 0);
-
-      this.all_transactions.forEach(trns => {
-        if(trns.category) {
-          this.consolidatedExpenses[trns.category] += trns.amount;
-        }
-      });
-    }
-  }
-
 
 }
