@@ -15,7 +15,8 @@ export class ConsolidatedCategory {
   }
 
   addTransaction(transaction: ITransaction, mode: DocumentChangeType) {
-    if (transaction.category === this.categoryId) {
+
+    // if (!transaction.category || transaction.category === this.categoryId) { //remove this if condition
       if (mode === 'added') {
         this.transactions.push(transaction);
 
@@ -41,6 +42,6 @@ export class ConsolidatedCategory {
           this.categoryTotal += newAmount;
         }
       }
-    }
+    // }
   }
 }

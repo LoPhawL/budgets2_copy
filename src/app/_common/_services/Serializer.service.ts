@@ -20,7 +20,6 @@ export class SerializerService {
   ) {
     const rawDocsData: Partial<T1>[] = Object.values(localDataStore);
     let dcChanges = col.docChanges();
-    // console.log(entityName + ' - ' + dcChanges.length);
     const rawChangeSet: { [key: string]: Partial<{ type: DocumentChangeType, doc: T1 }> } = {};
     for (let docChange of dcChanges) {
       const doc = docChange.doc;
