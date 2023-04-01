@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { NgbActiveModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, takeUntil } from 'rxjs';
 import { AccountsMap } from '../../_models/Account';
 import { ITransaction } from '../../_models/ITransaction';
@@ -30,20 +30,20 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
   ALL_ACCOUNT_IDS: string[] = [];
   ALL_ACCOUNTS: AccountsMap = {};
 
-  private unsubscribeNotifier = new Subject();
+  randomizeId: boolean = false;
 
   transactionForm: FormGroup;
+  transactionDate?: Date = undefined;
+
+  private unsubscribeNotifier = new Subject();
 
   constructor(
     private _dataService: CommonDataService,
     private _accountsService: AccountsService,
     private _fsService: FirestoreService,
     private _currentBudgetService: CurrentBudgetService,
-    private _currentModal: NgbActiveModal,
-    private _commonDataService: CommonDataService
+    private _currentModal: NgbActiveModal
   ) {
-
-    const now = new Date();
 
     this.transactionForm = new FormGroup({
       transactionNote: new FormControl(null),
@@ -51,11 +51,7 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
       category: new FormControl({ value: null, disabled: true}),
       amount: new FormControl(null, [Validators.required, Validators.min(0)]),
       accountsToTransact: new FormArray([]),
-      date: new FormControl({
-        year: now.getFullYear(),
-        month: now.getMonth(),
-        day: now.getDate()
-      })
+      // date: new FormControl()
     });
 
     this.transactionForm.setValidators(EitherNotesOrCategoryRequiredForTransaction);
@@ -77,6 +73,8 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
       this.ALL_ACCOUNT_IDS = accs.keys;
       this.ALL_ACCOUNTS = accs.values;
     });
+
+    this.selectDate('now');
   }
 
   ngOnDestroy() {
@@ -149,19 +147,15 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
 
   submit() {
 
-    console.log(this.transactionForm.get('date')?.value);
-    return;
-
     const transaction: Partial<ITransaction> = {
       note: String(this.transactionForm.get('transactionNote')?.value),
       transactionType: String(this.transactionForm.get('transactionType')?.value),
       category: this.transactionForm.get('category')?.value || null,
       amount: Number(this.transactionForm.get('amount')?.value),
-      date: new Date(),
+      date: this.transactionDate,
       tags: {},
       labels: []
     };
-    transaction.date = new Date();
     const transactionTypeRulesForCalculation = JSON.parse(JSON.stringify(this.ALL_TRANSACTIONTYPES[transaction.transactionType!].rules!)) as ITransactionRule[];
     const selectedTransactionRuleAccountControls = (this.transactionForm.get('accountsToTransact') as FormArray).controls;
 
@@ -177,12 +171,43 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     const modifiedAccounts = this._accountsService.runTransaction(transactionTypeRulesForCalculation, transaction.amount!);
     // in a transaction, save transaction and modifiedAccounts
     const batch = this._fsService.getBatch();
-    this._currentBudgetService.saveTransaction(transaction, batch);
+    this._currentBudgetService.saveTransaction(transaction, batch, this.randomizeId);
     modifiedAccounts.forEach(account => this._accountsService.saveAccount(account, batch))
     batch.commit()
     // .then( () => this._commonDataService.newTransactionCommitted.next(transaction) )
     .then( () => this._currentModal.close('added') );
   }
+
+  selectDate(controlId: 'now' | 'lastMonth' | 'custom') {
+
+    if (controlId === 'now') {
+      this.transactionDate = new Date();
+      this.randomizeId = false;
+    } else if (controlId === 'lastMonth') {
+
+      const date = new Date();
+      let year = date.getFullYear();
+      let lastMonth = date.getMonth() - 1;
+      if (lastMonth < 0) {
+        lastMonth = 11;
+        year -= 1;
+      }
+      const lastMonthLastDay = new Date(date.getFullYear(), lastMonth+1, 0).getDate();
+      this.transactionDate = new Date(year, lastMonth, lastMonthLastDay);
+      this.transactionDate.setHours(23);
+      this.transactionDate.setMinutes(59);
+      this.transactionDate.setSeconds(59);
+      this.randomizeId = true;
+    } else {
+      this.transactionDate = undefined;
+      this.randomizeId = true;
+    }
+  }
+
+  customDateSelected(date: NgbDate) {
+    this.transactionDate = new Date(date.year, date.month-1, date.day);
+  }
+
 }
 
 class MetaFormControl extends FormControl {

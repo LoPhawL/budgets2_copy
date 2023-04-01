@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Timestamp } from 'firebase/firestore';
 import { ConsolidatedCategory } from '../../_models/ConsolidatedCategory';
 
 @Component({
@@ -11,7 +12,8 @@ export class CategoryExpensesComponent {
   @Input()
   public consolidatedExpenses?: ConsolidatedCategory = undefined;
 
-  getDate(dt: string) {
-    return new Date(Number(dt));
+  getDate(dt: Date | Timestamp) {
+
+    return (dt as Timestamp).toDate()
   }
 }
