@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, takeUntil } from 'rxjs';
 import { AccountsMap } from '../../_models/Account';
 import { ITransaction } from '../../_models/ITransaction';
@@ -34,7 +34,6 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
 
   transactionForm: FormGroup;
 
-
   constructor(
     private _dataService: CommonDataService,
     private _accountsService: AccountsService,
@@ -43,15 +42,23 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     private _currentModal: NgbActiveModal,
     private _commonDataService: CommonDataService
   ) {
+
+    const now = new Date();
+
     this.transactionForm = new FormGroup({
       transactionNote: new FormControl(null),
       transactionType: new FormControl('', [Validators.required]),
       category: new FormControl({ value: null, disabled: true}),
       amount: new FormControl(null, [Validators.required, Validators.min(0)]),
-      accountsToTransact: new FormArray([])
+      accountsToTransact: new FormArray([]),
+      date: new FormControl({
+        year: now.getFullYear(),
+        month: now.getMonth(),
+        day: now.getDate()
+      })
     });
 
-    this.transactionForm.setValidators(EitherNotesOrCategoryRequiredForTransaction)
+    this.transactionForm.setValidators(EitherNotesOrCategoryRequiredForTransaction);
   }
 
   ngOnInit() {
@@ -141,6 +148,10 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
   }
 
   submit() {
+
+    console.log(this.transactionForm.get('date')?.value);
+    return;
+
     const transaction: Partial<ITransaction> = {
       note: String(this.transactionForm.get('transactionNote')?.value),
       transactionType: String(this.transactionForm.get('transactionType')?.value),
