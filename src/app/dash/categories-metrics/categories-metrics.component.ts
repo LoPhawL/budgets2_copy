@@ -27,7 +27,10 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
   constructor(
     private _commonDataService: CommonDataService
     // private _dashDataService: DashboardDataService
-  ) {}
+  ) {
+    this.consolidatedExpenses['uncategorized'] = new ConsolidatedCategory('uncategorized');
+    this.consolidatedExpenses['uncategorized'].transactionType = 'expense';
+  }
 
   ngOnDestroy(): void {
     this._unsubscribeNotifier.next(null);
@@ -37,21 +40,18 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
     this._commonDataService.CATEGORIES_CHANGED
     .pipe(takeUntil(this._unsubscribeNotifier))
     .subscribe(catagoriesData => {
-      // console.log('incoming - ct', catagoriesData);
 
       this.categories = [];
       catagoriesData.keys.forEach(incomingCategory => {
         const categ = catagoriesData.values[incomingCategory];
         this.categories.push(categ);
 
-        this.consolidatedExpenses[incomingCategory] = 
+        this.consolidatedExpenses[incomingCategory] =
           this.consolidatedExpenses[incomingCategory] ||
           new ConsolidatedCategory(incomingCategory);
-        
+
           this.consolidatedExpenses[incomingCategory].transactionType = categ.transactionType!;
       });
-
-      // this.computeTotalExpenseOfCategories();
     });
 
     this._commonDataService.TRANSACTIONS_CHANGED
@@ -60,15 +60,36 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
 
       const transactions_raw_changeset = transactions.rawChangeSet;
       for (let transKey of Object.keys(transactions_raw_changeset)) {
-        const cat = transactions_raw_changeset[transKey].doc!.category!;
-        const consolidatedExpense = this.consolidatedExpenses[cat] || new ConsolidatedCategory(cat);
-        consolidatedExpense.addTransaction(transactions_raw_changeset[transKey].doc!, transactions_raw_changeset[transKey].type!);
+        const transaction = transactions_raw_changeset[transKey].doc!
+        if (transaction.transactionType === 'expense') {
+          if (!transactions_raw_changeset[transKey].doc!.category) {
+            transactions_raw_changeset[transKey].doc!.category = 'uncategorized';
+          }
+
+          const cat = transactions_raw_changeset[transKey].doc!.category!;
+          const consolidatedExpense = this.consolidatedExpenses[cat] || new ConsolidatedCategory(cat);
+          consolidatedExpense.addTransaction(transactions_raw_changeset[transKey].doc!, transactions_raw_changeset[transKey].type!);
+        }
       }
     });
   }
 
   public getExpenseCategoriesForDisplay() {
-    return this.categories.filter(cat => cat.transactionType === 'expense');
+    const catsToDisplay = [];
+    catsToDisplay.push(({
+      name: 'Uncategorized',
+      id: 'uncategorized',
+      transactionType: 'expense',
+      maxMonthly: undefined
+    }) as Partial<Category>);
+
+    this.categories.forEach(cat => {
+        if (cat.transactionType === 'expense') {
+          catsToDisplay.push(cat);
+        }
+      });
+
+    return catsToDisplay;
   }
 
   public getCategoryBarColor(spentPercent: number) {
