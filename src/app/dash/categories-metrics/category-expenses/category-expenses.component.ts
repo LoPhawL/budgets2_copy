@@ -11,6 +11,10 @@ export class CategoryExpensesComponent {
   @Input()
   public consolidatedExpenses?: ConsolidatedCategory = undefined;
 
+  ngOnInit() {
+    console.log(this.consolidatedExpenses);
+  }
+
   getDate(dt: string) {
     return new Date(Number(dt));
   }

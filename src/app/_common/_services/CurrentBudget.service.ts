@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
-import { collection, doc, DocumentData, DocumentReference, getDoc, setDoc, WriteBatch } from "firebase/firestore";
+import { collection, doc, DocumentData, DocumentReference, getDoc, onSnapshot, QuerySnapshot, setDoc, Unsubscribe, WriteBatch } from "firebase/firestore";
 import { BehaviorSubject } from "rxjs";
+import { BudgetSettings } from "../_models/BudgetSettings";
 import { ITransaction } from "../_models/ITransaction";
 import { AccountsService } from "./Accounts.service";
 import { FirestoreService } from "./Firestore.service";
@@ -13,6 +14,9 @@ export class CurrentBudgetService {
   public readonly currentBudgetFsDocRef: DocumentReference<DocumentData>;
 
   public budgetInitiated = new BehaviorSubject<string>('');
+  public budgetSettingsUpdated = new BehaviorSubject<Partial<{id: string, currentBudgetSettings: BudgetSettings}>>({});
+
+  private _unsubscribe: Unsubscribe[] = [];
 
   constructor(private _fsService: FirestoreService, private _accountsService: AccountsService) {
 
@@ -56,11 +60,36 @@ export class CurrentBudgetService {
         throw err;
       }
     });
+
+    const currentBudgetSettings = new BudgetSettings();
+    // NEED TO: strongly type the below subscription
+    const unsubscribeTransactions = onSnapshot(collection(this._fsService.db, this.currentBudgetRef, 'settings'), ( col => {
+      col.docChanges().forEach( docRef => {
+        const doc = docRef.doc;
+        if (docRef.type in ['added', 'modified']) {
+          // currentBudgetSettings.set(doc.id, doc.data());
+        } else if (docRef.type === 'removed') {
+          // currentBudgetSettings.unSet(doc.id);
+        }
+        this.budgetSettingsUpdated.next({ id: doc.id, currentBudgetSettings });
+      });
+    }));
+    this._unsubscribe.push(unsubscribeTransactions);
+
+    // onSnapshot(, (col) => {
+    //   col.docChanges().forEach(doc => console.log(doc.doc.data()));
+    // })
   }
 
   saveTransaction(transaction: Partial<ITransaction>, batch: WriteBatch) {
 
     const id = transaction.date?.getTime() + '';
     batch.set(doc(collection(this._fsService.db, this.currentBudgetRef, 'transactions'), id), transaction);
+  }
+
+  onDestroy() {
+    for (let unsubscribable of this._unsubscribe) {
+      unsubscribable();
+    }
   }
 }
