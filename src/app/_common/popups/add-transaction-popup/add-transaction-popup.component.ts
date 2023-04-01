@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { NgbActiveModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgbActiveModal, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, takeUntil } from 'rxjs';
 import { AccountsMap } from '../../_models/Account';
 import { ITransaction } from '../../_models/ITransaction';
@@ -35,6 +35,12 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
   transactionForm: FormGroup;
   transactionDate?: Date = undefined;
 
+  maxDate: NgbDateStruct = {
+    year: 0,
+    month: 0,
+    day: 0,
+  };
+  customDateSelected: boolean = false;
   private unsubscribeNotifier = new Subject();
 
   constructor(
@@ -45,13 +51,17 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     private _currentModal: NgbActiveModal
   ) {
 
+    const now = new Date();
+    this.maxDate.year = now.getFullYear();
+    this.maxDate.month = now.getMonth() + 1;
+    this.maxDate.day = now.getDate();
+
     this.transactionForm = new FormGroup({
       transactionNote: new FormControl(null),
       transactionType: new FormControl('', [Validators.required]),
       category: new FormControl({ value: null, disabled: true}),
       amount: new FormControl(null, [Validators.required, Validators.min(0)]),
-      accountsToTransact: new FormArray([]),
-      // date: new FormControl()
+      accountsToTransact: new FormArray([])
     });
 
     this.transactionForm.setValidators(EitherNotesOrCategoryRequiredForTransaction);
@@ -183,6 +193,7 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     if (controlId === 'now') {
       this.transactionDate = new Date();
       this.randomizeId = false;
+      this.customDateSelected = false;
     } else if (controlId === 'lastMonth') {
 
       const date = new Date();
@@ -198,13 +209,15 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
       this.transactionDate.setMinutes(59);
       this.transactionDate.setSeconds(59);
       this.randomizeId = true;
+      this.customDateSelected = false;
     } else {
       this.transactionDate = undefined;
       this.randomizeId = true;
     }
   }
 
-  customDateSelected(date: NgbDate) {
+  onCustomDateSelected(date: NgbDate) {
+    this.customDateSelected = true;
     this.transactionDate = new Date(date.year, date.month-1, date.day);
   }
 

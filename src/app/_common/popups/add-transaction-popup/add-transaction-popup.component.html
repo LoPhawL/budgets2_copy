@@ -59,8 +59,12 @@
     </div>
 
     <div class="mt-2">
-      <div>Date</div>
-      <div class="btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
+      <div>
+        <span class="">Date</span>
+        <span class="badge bg-secondary" style="margin-left: 2%;">{{ customDateSelected ? (transactionDate  | date: 'MMM d, y') : ''}}</span>
+      </div>
+
+      <div class="btn-group btn-group-sm mt-1" role="group" aria-label="Basic radio toggle button group">
         <input type="radio" class="btn-check mr-1" name="btnradio" id="btnradio1" autocomplete="off" checked (change)="selectDate('now')">
         <label class="btn btn-outline-primary" for="btnradio1">Now</label>
 
@@ -68,9 +72,11 @@
         <label class="btn btn-outline-primary" for="btnradio2">Last month</label>
 
         <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" (click)="selectDate('custom')" (change)="selectDate('custom')">
-        <label class="btn btn-outline-primary" for="btnradio3">Choose date</label>
+        <label class="btn btn-outline-primary" for="btnradio3">
+          {{customDateSelected ? 'Change ' : 'Choose '}} date
+        </label>
       </div>
-      <ngb-datepicker #dp *ngIf="!transactionDate" class="mt-1" (dateSelect)="customDateSelected($event)"></ngb-datepicker>
+      <ngb-datepicker [maxDate]="maxDate" #dp *ngIf="!transactionDate" class="mt-1" (dateSelect)="onCustomDateSelected($event)"></ngb-datepicker>
     </div>
 
     <button class="btn btn-outline-success mt-3" type="submit" [disabled]="!transactionForm.valid">Add</button>
