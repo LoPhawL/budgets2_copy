@@ -20,6 +20,7 @@ import { CurrencySymbolComponent } from './_common/currency-symbol/currency-symb
 import { CategoriesMetricsComponent } from './dash/categories-metrics/categories-metrics.component';
 import { MetricsCardsListComponent } from './dash/metrics-cards-list/metrics-cards-list.component';
 import { NavbComponent } from './_common/navb/navb.component';
+import { CategoryExpensesComponent } from './dash/categories-metrics/category-expenses/category-expenses.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NavbComponent } from './_common/navb/navb.component';
     CategoriesMetricsComponent,
     MetricsCardsListComponent,
     NavbComponent,
+    CategoryExpensesComponent,
   ],
   imports: [
     BrowserModule,

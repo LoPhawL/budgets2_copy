@@ -58,9 +58,13 @@ export class CurrentBudgetService {
     });
   }
 
-  saveTransaction(transaction: Partial<ITransaction>, batch: WriteBatch) {
+  saveTransaction(transaction: Partial<ITransaction>, batch: WriteBatch, randomizeId: boolean) {
 
-    const id = transaction.date?.getTime() + '';
-    batch.set(doc(collection(this._fsService.db, this.currentBudgetRef, 'transactions'), id), transaction);
+    let id = transaction.date?.getTime() + '';
+    if (randomizeId) {
+      id += '_' + new Date().getTime();
+    }
+    const budgetRef = transaction.date?.getMonth() + '' + transaction.date?.getFullYear();
+    batch.set(doc(collection(this._fsService.db, 'budgets', budgetRef, 'transactions'), id), transaction);
   }
 }
