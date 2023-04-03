@@ -5,11 +5,11 @@ import { AccountsService } from '../../_common/_services/Accounts.service';
 import { CurrentBudgetService } from 'src/app/_common/_services/CurrentBudget.service';
 
 @Component({
-  selector: 'app-metrics-cards-list',
-  templateUrl: './metrics-cards-list.component.html',
-  styleUrls: ['./metrics-cards-list.component.scss']
+  selector: 'app-metrics-carousel',
+  templateUrl: './metrics-carousel.component.html',
+  styleUrls: ['./metrics-carousel.component.scss']
 })
-export class MetricsCardsListComponent implements OnInit, OnDestroy {
+export class MetricsCarouselComponent implements OnInit, OnDestroy {
 
   public systemDefaultAccountBalance: number = 0;
 
