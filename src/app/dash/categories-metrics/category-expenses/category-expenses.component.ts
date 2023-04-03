@@ -12,7 +12,7 @@ export class CategoryExpensesComponent {
   public consolidatedExpenses?: ConsolidatedCategory = undefined;
 
   ngOnInit() {
-    console.log(this.consolidatedExpenses);
+    // console.log(this.consolidatedExpenses);
   }
 
   getDate(dt: string) {

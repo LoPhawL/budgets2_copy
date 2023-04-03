@@ -1,16 +1,22 @@
-import { FirestoreService } from "../_services/Firestore.service";
+export interface ILastUpdatedOn {
+    transaction: string | null;
+    value: string | null;
+}
 
-export class CurrentBudgetSettings {
+export interface ITodaysUpdatedToggle {
+  transaction?: string | null;
+  value?: Date  | null;
+}
 
-  public lastUpdatedOn: {
-    transaction?: string | null;
-    value?: Date  | null;
-  } = { transaction: null, value: null };
+export interface ICurrentBudgetSettings {
+  lastUpdatedOn: ILastUpdatedOn;
+  todaysUpdatedToggle: ITodaysUpdatedToggle;
+}
 
-  public todaysUpdatedToggle: {
-    updatedOn?: Date | null;
-    value?: boolean | null;
-  } = { updatedOn: null, value: null };
+export class CurrentBudgetSettings implements ICurrentBudgetSettings{
+
+  public lastUpdatedOn = { transaction: null, value: null };
+  public todaysUpdatedToggle = { updatedOn: null, value: null };
 
   constructor() {
     this.lastUpdatedOn.transaction = null;
@@ -26,10 +32,13 @@ export class CurrentBudgetSettings {
 
   public getEmptySettings() {
 
-    return Object.fromEntries( Object.entries(new CurrentBudgetSettings()));
+    return Object.fromEntries(Object.entries(new CurrentBudgetSettings()));
   }
 
-  public set(id: any, data: any) {
-    console.log(id, data);
+  public set(id: string, data: any) {
+
+    const update = { ...this } as any;
+    update[id] = data;
+    Object.assign(this, update);
   }
 }
