@@ -21,6 +21,7 @@ import { CategoriesMetricsComponent } from './dash/categories-metrics/categories
 import { MetricsCardsListComponent } from './dash/metrics-cards-list/metrics-cards-list.component';
 import { NavbComponent } from './_common/navb/navb.component';
 import { CategoryExpensesComponent } from './dash/categories-metrics/category-expenses/category-expenses.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { CategoryExpensesComponent } from './dash/categories-metrics/category-ex
     MetricsCardsListComponent,
     NavbComponent,
     CategoryExpensesComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

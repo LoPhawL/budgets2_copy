@@ -1,6 +1,6 @@
 <div ngbDropdown class="d-inline-block">
     <fa-icon [icon]="faCircleArrowRight"
-        id="masterNavButton" 
+        id="masterNavButton"
         ngbDropdownToggle
         aria-expanded="false"
         class="btn text-primary"
@@ -11,8 +11,10 @@
 
         <button ngbDropdownItem *ngIf="currentPage !== '' && currentPage !== '/'">Back</button>
 
-		<button ngbDropdownItem routerLink="/" *ngIf="currentPage !== '/'">Home</button>
+      <button ngbDropdownItem routerLink="/" *ngIf="currentPage !== '/'">Home</button>
 
-		<button ngbDropdownItem routerLink="categories" *ngIf="currentPage !== '/categories'">Categories</button>
+      <button ngbDropdownItem routerLink="categories" *ngIf="currentPage !== '/categories'">Categories</button>
+
+      <button ngbDropdownItem routerLink="settings" *ngIf="currentPage !== '/settings'">Settings</button>
 	</div>
 </div>
