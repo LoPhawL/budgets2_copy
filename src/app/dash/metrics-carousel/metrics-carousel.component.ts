@@ -39,6 +39,7 @@ export class MetricsCarouselComponent implements OnInit, OnDestroy {
   }
 
   getAccountsExceptDefault() {
-    return this.ALL_ACCOUNT_IDS.filter( accId => accId !== 'default')
+
+    return this.ALL_ACCOUNT_IDS.filter( accId => accId !== 'default');
   }
 }

@@ -1,0 +1,30 @@
+<ngb-carousel [interval]="3000">
+	<ng-template ngbSlide>
+    <div class="card text-white bg-secondary mb-3">
+      <div class="card-header display-7 app-shadow" style="background-color: unset; border-bottom: unset;">
+          Balances
+      </div>
+      <div class="card-body">
+          <!-- <div class="display-4 card-title app-shadow">
+              <app-currency-symbol class="display-6"></app-currency-symbol>
+              {{ systemDefaultAccountBalance | number : '1.2-2' }}
+          </div>
+          <div class="w-75 d-flex" style="justify-content: space-between;" *ngFor="let accId of getAccountsExceptDefault()">
+              <div class="">
+                  {{ ALL_ACCOUNTS[accId].name }}
+              </div>
+              <div class="">
+                  <app-currency-symbol fonsSize="0.9"></app-currency-symbol>{{ ALL_ACCOUNTS[accId].balance | number : '1.2-2' }}
+              </div>
+          </div> -->
+      </div>
+    </div>
+
+	</ng-template>
+	<!-- <ng-template ngbSlide>
+
+	</ng-template> -->
+	<!-- <ng-template ngbSlide>
+
+	</ng-template> -->
+</ngb-carousel>

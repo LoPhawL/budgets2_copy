@@ -22,12 +22,15 @@ import { MetricsCarouselComponent } from './dash/metrics-carousel/metrics-carous
 import { NavbComponent } from './_common/navb/navb.component';
 import { CategoryExpensesComponent } from './dash/categories-metrics/category-expenses/category-expenses.component';
 import { SettingsComponent } from './settings/settings.component';
+import { FirstCarouselComponent } from './dash/metrics-carousel/first-carousel/first-carousel.component';
+import { SecondCarouselComponent } from './dash/metrics-carousel/second-carousel/second-carousel.component';
+import { AccountsBalanceCardComponent } from './dash/metrics-carousel/cards/accounts-balance-card/accounts-balance-card.component';
+import { TransactionMetaReferenceCardComponent } from './dash/metrics-carousel/cards/transaction-meta-reference-card/transaction-meta-reference-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashComponent,
-    // ExpenditureBarComponent,
     CategoriesComponent,
     CategoriesListComponent,
     AddCategoryPopupComponent,
@@ -38,6 +41,10 @@ import { SettingsComponent } from './settings/settings.component';
     NavbComponent,
     CategoryExpensesComponent,
     SettingsComponent,
+    FirstCarouselComponent,
+    SecondCarouselComponent,
+    AccountsBalanceCardComponent,
+    TransactionMetaReferenceCardComponent,
   ],
   imports: [
     BrowserModule,
