@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AccountsBalanceCardComponent {
 
+  constructor() {
+    console.log('acc card - cons');
+
+  }
 }
