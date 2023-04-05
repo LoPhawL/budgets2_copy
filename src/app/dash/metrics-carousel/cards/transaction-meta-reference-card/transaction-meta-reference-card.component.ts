@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./transaction-meta-reference-card.component.scss']
 })
 export class TransactionMetaReferenceCardComponent {
-
+  constructor() {
+    console.log('meta card - cons');
+  }
 }

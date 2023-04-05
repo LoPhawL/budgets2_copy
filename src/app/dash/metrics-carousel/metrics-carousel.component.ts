@@ -30,7 +30,8 @@ export class MetricsCarouselComponent implements OnInit, OnDestroy {
     });
 
     this._currentBudgetService.budgetSettingsUpdated.subscribe( currentBudgetSettings => {
-      console.log(currentBudgetSettings);
+      // console.log(currentBudgetSettings);
+      // need to bind this to the first carousel.
     });
   }
 
