@@ -1,6 +1,8 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface ILastUpdatedOn {
     transaction: string | null;
-    value: string | null;
+    value: Timestamp | null;
 }
 
 export interface ITodaysUpdatedToggle {
