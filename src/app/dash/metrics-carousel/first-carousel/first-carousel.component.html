@@ -1,0 +1,9 @@
+<ngb-carousel [interval]="carouselTime" [pauseOnHover]="true">
+
+  <ng-template  ngbSlide *ngFor="let card of cardsToDisplay">
+    <div class="" style="height: 210px;">
+      <ng-component [appCardHost]="card.order"> </ng-component>
+    </div>
+  </ng-template>
+
+</ngb-carousel>
