@@ -1,6 +1,5 @@
 import { ViewContainerRef } from "@angular/core";
 import { Card, TCardType } from "./Card";
-import { appInjector } from 'src/app/app.module';
 import { AccountsBalanceCardComponent } from "../accounts-balance-card/accounts-balance-card.component";
 
 export class AccountsBlanceCard extends Card{
@@ -49,8 +48,6 @@ export class AccountsBlanceCard extends Card{
   public createComponent(viewContainerRef: ViewContainerRef) {
 
     if (viewContainerRef) {
-      // const compFactoryResolver = appInjector.get(ComponentResolver);
-      // const accBalCardFactory = compFactoryResolver.resolveComponentFactory(AccountsBalanceCardComponent);
       viewContainerRef.clear();
       viewContainerRef.createComponent(AccountsBalanceCardComponent);
     }
