@@ -6,7 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./transaction-meta-reference-card.component.scss']
 })
 export class TransactionMetaReferenceCardComponent {
-  constructor() {
-    console.log('meta card - cons');
-  }
+
+  // this._currentBudgetService.budgetSettingsUpdated.subscribe( currentBudgetSettings => {
+    // console.log(currentBudgetSettings);
+    // need to bind this to the first carousel.
+  // });
+
 }

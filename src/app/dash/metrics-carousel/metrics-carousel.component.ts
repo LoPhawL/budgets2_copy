@@ -1,46 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
-import { AccountsMap } from '../../_common/_models/Account';
-import { AccountsService } from '../../_common/_services/Accounts.service';
-import { CurrentBudgetService } from 'src/app/_common/_services/CurrentBudget.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-metrics-carousel',
   templateUrl: './metrics-carousel.component.html',
   styleUrls: ['./metrics-carousel.component.scss']
 })
-export class MetricsCarouselComponent implements OnInit, OnDestroy {
-
-  public systemDefaultAccountBalance: number = 0;
-
-  public ALL_ACCOUNT_IDS: string[] = [];
-  public ALL_ACCOUNTS: AccountsMap = {};
-
-  private unsubscribeNotifier = new Subject();
-
-  constructor(private _accountsService: AccountsService, private _currentBudgetService: CurrentBudgetService) {
-
-  }
-
-  ngOnInit() {
-    this._accountsService.ACCOUNTS_CHANGED.pipe(takeUntil(this.unsubscribeNotifier)).subscribe( accountsData => {
-      this.systemDefaultAccountBalance = Number(accountsData.values['default']?.balance);
-      this.ALL_ACCOUNTS = accountsData.values;
-      this.ALL_ACCOUNT_IDS = accountsData.keys;
-    });
-
-    this._currentBudgetService.budgetSettingsUpdated.subscribe( currentBudgetSettings => {
-      // console.log(currentBudgetSettings);
-      // need to bind this to the first carousel.
-    });
-  }
-
-  ngOnDestroy() {
-    this.unsubscribeNotifier.next(null);
-  }
-
-  getAccountsExceptDefault() {
-
-    return this.ALL_ACCOUNT_IDS.filter( accId => accId !== 'default');
-  }
-}
+export class MetricsCarouselComponent {}

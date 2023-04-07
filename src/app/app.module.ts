@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DashComponent } from './dash/dash.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-// import { ExpenditureBarComponent } from './expenditure-bar/expenditure-bar.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
@@ -26,6 +25,7 @@ import { FirstCarouselComponent } from './dash/metrics-carousel/first-carousel/f
 import { SecondCarouselComponent } from './dash/metrics-carousel/second-carousel/second-carousel.component';
 import { AccountsBalanceCardComponent } from './dash/metrics-carousel/cards/accounts-balance-card/accounts-balance-card.component';
 import { TransactionMetaReferenceCardComponent } from './dash/metrics-carousel/cards/transaction-meta-reference-card/transaction-meta-reference-card.component';
+import { CardHostDirective } from './dash/metrics-carousel/_directives/CardHost';
 
 @NgModule({
   declarations: [
@@ -45,6 +45,7 @@ import { TransactionMetaReferenceCardComponent } from './dash/metrics-carousel/c
     SecondCarouselComponent,
     AccountsBalanceCardComponent,
     TransactionMetaReferenceCardComponent,
+    CardHostDirective
   ],
   imports: [
     BrowserModule,

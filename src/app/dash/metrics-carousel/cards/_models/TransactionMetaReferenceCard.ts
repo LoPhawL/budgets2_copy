@@ -1,6 +1,6 @@
 import { ViewContainerRef } from "@angular/core";
-import { TransactionMetaReferenceCardComponent } from "../transaction-meta-reference-card/transaction-meta-reference-card.component";
 import { Card, TCardType } from "./Card";
+import { TransactionMetaReferenceCardComponent } from "../transaction-meta-reference-card/transaction-meta-reference-card.component";
 
 export class TransactionMetaReferenceCard extends Card{
 
