@@ -20,7 +20,7 @@ export class CommonDataService {
 	private _ALL_CATEGORIES: CategoriesMap = {};
   public CATEGORIES_CHANGED = new BehaviorSubject<IParsedDocument<Category>>({keys: [], values: {}, length: 0, raw: [], rawChangeSet: {} });
 
-  private _transactionTypesRef = 'transactionTypes';
+  private _transactionTypesRef = 'transcationTypes';
   private _ALL_TRANSACTIONTYPES: TransactionTypesMap = {};
   public TRANSACTIONTYPES_CHANGED = new BehaviorSubject<IParsedDocument<TransactionType>>({keys: [], values: {}, length: 0, raw: [], rawChangeSet: {} });
 
