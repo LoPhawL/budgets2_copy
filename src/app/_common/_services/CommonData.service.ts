@@ -48,7 +48,7 @@ export class CommonDataService {
     });
     this._unsubscribe.push(unsubscribeTransactionTypes);
 
-    const unsubscribeTransactions = onSnapshot(collection(this._fsService.db, this._currentBudgetService.currentBudgetRef, this._transactionsRef), (col => {
+    const unsubscribeTransactions = onSnapshot(collection(this._fsService.db, this._currentBudgetService.currentBudgetRef, this._transactionsRef), ( (col: QuerySnapshot<ITransactionsMap>) => {
       this._serializerService.serializeDocumentsInCollectionAndEmit<ITransactionsMap, ITransaction>
         (col, this._ALL_TRANSACTIONS, 'transactions', this.TRANSACTIONS_CHANGED);
     }));
