@@ -31,5 +31,4 @@ export class FirestoreService {
     getBatch() {
         return writeBatch(this.db);
     }
-
 }
