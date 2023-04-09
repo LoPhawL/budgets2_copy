@@ -118,6 +118,16 @@ export class CurrentBudgetService {
     });
   }
 
+  toggleTodaysUpdate(toggledValue: boolean) {
+    const ref = doc(collection(this._fsService.db, this.currentBudgetRef, 'settings'), 'todaysUpdatedToggle');
+
+    const updDate = new Date();
+    setDoc(ref, {
+      updatedOn: updDate,
+      value: toggledValue
+    }).then();
+  }
+
   onDestroy() {
     for (let unsubscribable of this._unsubscribe) {
       unsubscribable();
