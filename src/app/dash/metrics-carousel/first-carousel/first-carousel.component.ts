@@ -1,7 +1,7 @@
 import { AfterContentInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { Subject } from 'rxjs';
 import { CarouselsService } from '../_services/Carousels.service';
-import cardModels, { TSupportedCards } from '../cards/_models';
+import cardModels, { ICardsMap, TSupportedCards } from '../cards/_models';
 import { TCardType } from '../cards/_models/Card';
 import { CardHostDirective } from '../_directives/CardHost';
 import { environment } from 'src/environments/environment';
@@ -28,14 +28,21 @@ export class FirstCarouselComponent implements OnInit, OnDestroy, AfterContentIn
   ngOnInit(): void {
 
     setTimeout(() => {
-      this._carouselsService.carousels['carousel1'].subscribe( (cardsData: any) => {
+      this._carouselsService.carousels['carousel1'].subscribe( (cardsData: ICardsMap) => {
         const cardIds = Object.keys(cardsData);
         if (cardIds.length) {
           for (const cardId of cardIds) {
-            const cardType = cardsData[cardId].type as TCardType;
-            const fnConstructor = cardModels[cardType];
-            const card = new fnConstructor({id: cardId, ...cardsData[cardId]});
-            this.cardsToDisplay[card.order-1] = card;
+            if (!cardsData[cardId].hidden) {
+              const cardType = cardsData[cardId].type;
+              const fnConstructor = cardModels[cardType] as any;
+              const card = new fnConstructor({ ...cardsData[cardId] });
+              this.cardsToDisplay[card.order-1] = card;
+            } else {
+              const indexToRemove = this.cardsToDisplay.indexOf(this.cardsToDisplay.find(crd => crd.id === cardId)!);
+              if (indexToRemove) {
+                this.cardsToDisplay.splice(indexToRemove, 1);
+              }
+            }
           }
 
           setTimeout(() => {

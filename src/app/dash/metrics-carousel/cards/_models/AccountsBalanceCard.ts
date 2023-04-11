@@ -1,7 +1,13 @@
 import { ViewContainerRef } from "@angular/core";
-import { Card, TCardType } from "./Card";
+import { Card, ICard } from "./Card";
 import { AccountsBalanceCardComponent } from "../accounts-balance-card/accounts-balance-card.component";
 
+export interface IAccountsBalanceCard extends ICard {
+
+  cardTitle: string;
+  primaryDisplayedAccount: string;
+  hiddenAccounts: string[];
+}
 export class AccountsBlanceCard extends Card{
 
   private _cardTitle: string;
@@ -36,8 +42,8 @@ export class AccountsBlanceCard extends Card{
     this._hiddenAccounts = hiddenAccounts;
   }
 
-  constructor(arg: {id: string, order: number, type: TCardType, cardTitle: string, primaryDisplayedAccount: string, hiddenAccounts: string[]}) {
-    super(arg.id, arg.order, arg.type);
+  constructor(arg: IAccountsBalanceCard) {
+    super(arg.id, arg.order, arg.type, arg.hidden);
 
     this._cardTitle = arg.cardTitle;
     this._primaryDisplayedAccount = arg.primaryDisplayedAccount;
