@@ -1,5 +1,8 @@
 
 <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9 mt-3 mb-3">
+  <h3>
+    Total expenses: <app-currency-symbol fonsSize="1.2"></app-currency-symbol> {{ totalExpense.value }}
+  </h3>
    <ngb-accordion #acc="ngbAccordion">
       <ngb-panel *ngFor="let category of getExpenseCategoriesForDisplay()">
          <ng-template ngbPanelTitle style="padding-top: 9px; padding-bottom: 9px;">
