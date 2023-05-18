@@ -7,3 +7,7 @@ export default {
   }
 
   export type TSupportedCards = AccountsBlanceCard | TransactionMetaReferenceCard;
+
+  export interface ICardsMap {
+    [key: string]: TSupportedCards;
+  }

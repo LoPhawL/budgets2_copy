@@ -21,6 +21,10 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
   public categories: Partial<Category>[] = [];
   public consolidatedExpenses: { [key: string]: ConsolidatedCategory } = {};
 
+  public totalExpense: {
+    value: number
+  } = { value: 0}
+
 
   // public all_transactions: Partial<ITransaction>[] = [];
 
@@ -68,9 +72,11 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
 
           const cat = transactions_raw_changeset[transKey].doc!.category!;
           const consolidatedExpense = this.consolidatedExpenses[cat] || new ConsolidatedCategory(cat);
-          consolidatedExpense.addTransaction(transactions_raw_changeset[transKey].doc!, transactions_raw_changeset[transKey].type!);
+          consolidatedExpense.addTransaction(transactions_raw_changeset[transKey].doc!, transactions_raw_changeset[transKey].type!, this.totalExpense);
         }
       }
+      console.log(this.totalExpense);
+
     });
   }
 
@@ -99,7 +105,7 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
     const dayPercent = today/totalDays*100;
     const allowedToActual = spentPercent/dayPercent*100;
 
-    if(allowedToActual < 30) {
+    if(allowedToActual < 45) {
       return 'success';
     }
     if (allowedToActual <= 100) {
