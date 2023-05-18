@@ -14,19 +14,21 @@ export class ConsolidatedCategory {
     // this.transactionType = transactionType;
   }
 
-  addTransaction(transaction: ITransaction, mode: DocumentChangeType) {
+  addTransaction(transaction: ITransaction, mode: DocumentChangeType, totalExpenses: { value: number }) {
 
     // if (!transaction.category || transaction.category === this.categoryId) { //remove this if condition
       if (mode === 'added') {
         this.transactions.push(transaction);
 
         this.categoryTotal += transaction.amount;
+        totalExpenses.value += transaction.amount;
       } else if (mode === 'removed') {
         const transInStore = this.transactions.find(trans => trans.id === transaction.id)!;
         const index = this.transactions.indexOf(transInStore);
         this.transactions.splice(index, 1);
 
         this.categoryTotal -= transaction.amount;
+        totalExpenses.value -= transaction.amount;
       } else {
         const transInStore = this.transactions.find(trans => trans.id === transaction.id)!;
         const index = this.transactions.indexOf(transInStore);
@@ -40,6 +42,9 @@ export class ConsolidatedCategory {
         if(oldAmount !== newAmount) {
           this.categoryTotal -= oldAmount;
           this.categoryTotal += newAmount;
+
+          totalExpenses.value -= oldAmount;
+          totalExpenses.value += newAmount;
         }
       }
     // }
