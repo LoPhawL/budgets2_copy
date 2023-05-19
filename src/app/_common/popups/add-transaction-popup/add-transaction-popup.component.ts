@@ -180,6 +180,16 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     }
     const modifiedAccounts = this._accountsService.runTransaction(transactionTypeRulesForCalculation, transaction.amount!);
     // in a transaction, save transaction and modifiedAccounts
+
+    transaction.accountsAsModifiedByRules = [];
+
+    for (let modifiedAccount of modifiedAccounts) {
+      transaction.accountsAsModifiedByRules.push({
+        accountId: modifiedAccount.id,
+        currency: modifiedAccount.currency
+      })
+    }
+
     const batch = this._fsService.getBatch();
     this._currentBudgetService.saveTransaction(transaction, batch, this.randomizeId);
     modifiedAccounts.forEach(account => this._accountsService.saveAccount(account, batch))

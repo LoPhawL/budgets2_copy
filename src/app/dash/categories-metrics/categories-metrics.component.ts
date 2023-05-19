@@ -75,8 +75,6 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
           consolidatedExpense.addTransaction(transactions_raw_changeset[transKey].doc!, transactions_raw_changeset[transKey].type!, this.totalExpense);
         }
       }
-      console.log(this.totalExpense);
-
     });
   }
 

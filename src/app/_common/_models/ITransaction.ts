@@ -8,7 +8,8 @@ export interface ITransaction {
   transactionType: string;
   category: string | null;
   labels: string[];
-  tags: ITransactionTag
+  tags: ITransactionTag;
+  accountsAsModifiedByRules: { accountId: string, currency: string }[];
 }
 
 export interface ITransactionsMap {
