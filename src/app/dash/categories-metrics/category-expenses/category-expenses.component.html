@@ -1,3 +1,4 @@
 <div *ngFor="let transaction of consolidatedExpenses?.transactions">
-    {{ getDate(transaction.date) | date: 'MMM d, y, h:mm a' }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<app-currency-symbol fonsSize="0.9"></app-currency-symbol>{{transaction.amount | number}}&nbsp;&nbsp;&nbsp;&nbsp;{{transaction.note}}
+    {{ getDate(transaction.date) | date: 'MMM d, y, h:mm a' }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <app-currency-symbol fonsSize="0.9" [currencyCode]="transaction.accountsAsModifiedByRules ? transaction.accountsAsModifiedByRules[0].currency || '' : ''"></app-currency-symbol>{{transaction.amount | number}}&nbsp;&nbsp;&nbsp;&nbsp;{{transaction.note}}
 </div>
