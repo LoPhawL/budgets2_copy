@@ -2,7 +2,6 @@ import { AfterContentInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, 
 import { Subject } from 'rxjs';
 import { CarouselsService } from '../_services/Carousels.service';
 import cardModels, { ICardsMap, TSupportedCards } from '../cards/_models';
-import { TCardType } from '../cards/_models/Card';
 import { CardHostDirective } from '../_directives/CardHost';
 import { environment } from 'src/environments/environment';
 

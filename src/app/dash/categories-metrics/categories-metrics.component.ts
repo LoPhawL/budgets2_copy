@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { Category } from 'src/app/_common/_models/TransactionCategory';
 import { CommonDataService } from 'src/app/_common/_services/CommonData.service';
@@ -9,7 +9,8 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-categories-metrics',
   templateUrl: './categories-metrics.component.html',
-  styleUrls: ['./categories-metrics.component.scss']
+  styleUrls: ['./categories-metrics.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoriesMetricsComponent implements OnInit, OnDestroy {
 
@@ -30,12 +31,11 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
     [currencyKey: string] : number
   } = { value: 0 }
 
-
-  // public all_transactions: Partial<ITransaction>[] = [];
+  public totalExpensesForDisplay: any = [];
 
   constructor(
-    private _commonDataService: CommonDataService
-    // private _dashDataService: DashboardDataService
+    private _commonDataService: CommonDataService,
+    private _cdc: ChangeDetectorRef
   ) {
     this.consolidatedExpenses['uncategorized'] = new ConsolidatedCategory('uncategorized');
     this.consolidatedExpenses['uncategorized'].transactionType = 'expense';
@@ -46,11 +46,12 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.categories.push(new Category('uncategorized', 'Uncategorized', 'GBP', '', 0, 'expense'));
     this._commonDataService.CATEGORIES_CHANGED
     .pipe(takeUntil(this._unsubscribeNotifier))
     .subscribe(catagoriesData => {
 
-      this.categories = [];
+      // this.categories = [];
       catagoriesData.keys.forEach(incomingCategory => {
         const categ = catagoriesData.values[incomingCategory];
         this.categories.push(categ);
@@ -61,6 +62,11 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
 
           this.consolidatedExpenses[incomingCategory].transactionType = categ.transactionType!;
       });
+      // repaint
+      this.totalExpensesForDisplay = this.getTotalExpenses();
+      setTimeout(() => {
+        this._cdc.markForCheck();
+      }, 0);
     });
 
     this._commonDataService.TRANSACTIONS_CHANGED
@@ -82,18 +88,17 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
           consolidatedExpense.addTransaction(transactions_raw_changeset[transKey].doc!, transactions_raw_changeset[transKey].type!, this.totalExpense);
         }
       }
+      // repaint
+      this.totalExpensesForDisplay = this.getTotalExpenses();
+      setTimeout(() => {
+        this._cdc.markForCheck();
+      }, 0);
     });
   }
 
   public getExpenseCategoriesForDisplay() {
-    const catsToDisplay = [];
-    catsToDisplay.push(({
-      name: 'Uncategorized',
-      id: 'uncategorized',
-      transactionType: 'expense',
-      maxMonthly: undefined
-    }) as Partial<Category>);
 
+    const catsToDisplay: Partial<Category>[] = [];
     this.categories.forEach(cat => {
         if (cat.transactionType === 'expense') {
           catsToDisplay.push(cat);
@@ -136,8 +141,6 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
 
   public getCategoryBarColor(spentPercent: number) {
 
-    // .categoryTotal/category.maxMonthly!*100
-
     const date = new Date();
     const today = date.getDate();
     const totalDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
@@ -166,6 +169,8 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
         totalExpenses.push( { currency: key, total: this.totalExpense[key] } );
       }
     }
+    console.log(this.consolidatedExpenses);
+
     return totalExpenses;
   }
 }
