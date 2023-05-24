@@ -1,7 +1,18 @@
 
 <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9 mt-3 mb-3">
   <h3>
-    Total expenses: <app-currency-symbol fonsSize="1.2"></app-currency-symbol> {{ totalExpense.value }}
+    <div class="">
+      <span class="mr-5">Totals:</span>
+      <span class="mx-3" *ngIf="currencyUnrelatedTotalExpense && currencyUnrelatedTotalExpense>0"
+        ngbTooltip="This total was as per old backward incompatible version. May contain de-naturalized totals from multiple currencies and so not be accuratte.">
+          <app-currency-symbol fonsSize="1.2"></app-currency-symbol> {{ currencyUnrelatedTotalExpense | number }}
+          <fa-icon class="text-warning" [icon]="faInfo" style="font-size: 1rem;"></fa-icon>
+      </span>
+      <span class="mx-3" *ngFor="let totalsValue of getTotalExpenses()">
+        <app-currency-symbol fonsSize="1.2" [currencyCode]="totalsValue.currency"></app-currency-symbol> {{ totalsValue.total | number }}
+      </span>
+    </div>
+
   </h3>
    <ngb-accordion #acc="ngbAccordion">
       <ngb-panel *ngFor="let category of getExpenseCategoriesForDisplay()">
@@ -12,13 +23,36 @@
                </div>
                <div class="col-sm-5 col-md-8 col-lg-8 row">
                   <div class="col-sm-12 col-md-5 col-lg-6">
-                     <span>Spent&nbsp;&nbsp;<app-currency-symbol fonsSize="0.9"></app-currency-symbol>{{ consolidatedExpenses[category.id!].categoryTotal || 0 | number }}</span><span  *ngIf="category.maxMonthly">&nbsp;&nbsp;of&nbsp;&nbsp;<app-currency-symbol fonsSize="0.9"></app-currency-symbol>{{category.maxMonthly}}</span>
+                    <span>
+                      Spent&nbsp;&nbsp;
+                      <app-currency-symbol fonsSize="0.9" [currencyCode]="category.currency || ''"></app-currency-symbol>
+                      {{ consolidatedExpenses[category.id!].categoryTotalByCurrency[category.currency || 'GBP'] || 0 | number }}
+                    </span>
+
+                    <span  *ngIf="category.maxMonthly">
+                      &nbsp;&nbsp;of&nbsp;&nbsp;
+                      <app-currency-symbol fonsSize="0.9"  [currencyCode]="category.currency || ''"></app-currency-symbol>
+                      {{category.maxMonthly}}
+                    </span>
+
+                    <span *ngIf="hasExpensesInOtherCurrencies(category)">
+                      ;&nbsp;
+                      <span *ngFor="let displayCurrency of getOtherCurrencyExpenses(category); let inn = index; let len = count;">
+                        <app-currency-symbol fonsSize="0.9" [currencyCode]="displayCurrency['currency']"></app-currency-symbol>
+                        {{ displayCurrency.value }}
+                        <span *ngIf="inn !==  len-1">
+                          ,
+                        </span>
+                      </span>
+                    </span>
+
                   </div>
                   <div class="col-sm-12 col-md-6 col-lg-6" *ngIf="category.maxMonthly">
-                     <ngb-progressbar
-                     [showValue]="true"
-                     [type]="getCategoryBarColor(consolidatedExpenses[category.id!].categoryTotal/category.maxMonthly!*100)"
-                     [value]="consolidatedExpenses[category.id!].categoryTotal/category.maxMonthly!*100"></ngb-progressbar>
+                    <ngb-progressbar
+                      [showValue]="true"
+                      [type]="getCategoryBarColor(consolidatedExpenses[category.id!].categoryTotalByCurrency[category.currency!]/category.maxMonthly!*100)"
+                      [value]="consolidatedExpenses[category.id!].categoryTotalByCurrency[category.currency!]/category.maxMonthly!*100">
+                    </ngb-progressbar>
                   </div>
                </div>
             </div>

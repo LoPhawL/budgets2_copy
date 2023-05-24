@@ -1,6 +1,6 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { CurrencyService } from '../_services/Currency.service';
-import { faSterlingSign, faInr, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faSterlingSign, faInr } from '@fortawesome/free-solid-svg-icons';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -8,7 +8,7 @@ import { Subject, takeUntil } from 'rxjs';
   templateUrl: './currency-symbol.component.html',
   styleUrls: ['./currency-symbol.component.scss']
 })
-export class CurrencySymbolComponent implements OnDestroy {
+export class CurrencySymbolComponent implements OnInit, OnDestroy {
 
   @Input()
   currencyCode: string = '';
@@ -21,17 +21,22 @@ export class CurrencySymbolComponent implements OnDestroy {
 
   allIcons: any = {
     faSterlingSign,
-    faInr
+    'GBP': faSterlingSign,
+    faInr,
+    'INR': faInr
   }
 
   constructor(private _currencyService: CurrencyService) {
-    
-    if (this.currencyCode) {
-      this.icon = this.allIcons[this.currencyCode];
+
+  }
+
+  ngOnInit(): void {
+    if (this.currencyCode && this.currencyCode !== '') {
+      this.icon = this.allIcons[this.currencyCode.toUpperCase()];
     } else {
       this._currencyService.currencyIcon.pipe(takeUntil(this.unsubscribeNotifier)).subscribe(icon => {
         this.icon = this.allIcons[icon];
-    });
+      });
     }
   }
 
