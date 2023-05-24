@@ -8,7 +8,7 @@
           <app-currency-symbol fonsSize="1.2"></app-currency-symbol> {{ currencyUnrelatedTotalExpense | number }}
           <fa-icon class="text-warning" [icon]="faInfo" style="font-size: 1rem;"></fa-icon>
       </span>
-      <span class="mx-3" *ngFor="let totalsValue of getTotalExpenses()">
+      <span class="mx-3" *ngFor="let totalsValue of totalExpensesForDisplay">
         <app-currency-symbol fonsSize="1.2" [currencyCode]="totalsValue.currency"></app-currency-symbol> {{ totalsValue.total | number }}
       </span>
     </div>
@@ -24,7 +24,6 @@
                <div class="col-sm-5 col-md-8 col-lg-8 row">
                   <div class="col-sm-12 col-md-5 col-lg-6">
                     <span>
-                      Spent&nbsp;&nbsp;
                       <app-currency-symbol fonsSize="0.9" [currencyCode]="category.currency || ''"></app-currency-symbol>
                       {{ consolidatedExpenses[category.id!].categoryTotalByCurrency[category.currency || 'GBP'] || 0 | number }}
                     </span>
