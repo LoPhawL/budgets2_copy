@@ -15,11 +15,13 @@
 
   </h3>
    <ngb-accordion #acc="ngbAccordion">
-      <ngb-panel *ngFor="let category of getExpenseCategoriesForDisplay()">
+      <ngb-panel *ngFor="let category of getExpenseCategoriesForDisplay(); let inn = index;">
          <ng-template ngbPanelTitle style="padding-top: 9px; padding-bottom: 9px;">
             <div class="row w-100">
                <div class="col-sm-5 col-md-4 col-lg-4">
-                  {{category.name}}
+                  <span  [ngClass]="{ 'alert alert-warning p-2': inn === 0 }">
+                    {{category.name}}
+                  </span>
                </div>
                <div class="col-sm-5 col-md-8 col-lg-8 row">
                   <div class="col-sm-12 col-md-5 col-lg-6">

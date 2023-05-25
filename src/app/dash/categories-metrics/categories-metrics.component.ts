@@ -46,7 +46,7 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.categories.push(new Category('uncategorized', 'Uncategorized', 'GBP', '', 0, 'expense'));
+    this.categories.push(new Category('uncategorized', 'Uncategorized expenses', 'GBP', '', 0, 'expense'));
     this._commonDataService.CATEGORIES_CHANGED
     .pipe(takeUntil(this._unsubscribeNotifier))
     .subscribe(catagoriesData => {
