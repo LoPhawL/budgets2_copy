@@ -169,8 +169,6 @@ export class CategoriesMetricsComponent implements OnInit, OnDestroy {
         totalExpenses.push( { currency: key, total: this.totalExpense[key] } );
       }
     }
-    console.log(this.consolidatedExpenses);
-
     return totalExpenses;
   }
 }
