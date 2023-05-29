@@ -17,7 +17,14 @@ export class TransactionsDisplayComponent {
   public order: number = -1;
 
   getDate(dt: Date | Timestamp) {
-    // return new Date();
     return (dt as Timestamp).toDate()
+  }
+
+  selectionChanged(selected: boolean) {
+    if (selected) {
+
+    } else {
+
+    }
   }
 }
