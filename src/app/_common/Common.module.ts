@@ -8,6 +8,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FabComponent } from "./fab/fab.component";
+import { TransactionsDisplayComponent } from './transactions-display/transactions-display.component';
 
 @NgModule({
   imports: [
@@ -23,13 +24,15 @@ import { FabComponent } from "./fab/fab.component";
     NavbComponent,
     AddCategoryPopupComponent,
     AddTransactionPopupComponent,
+    TransactionsDisplayComponent,
   ],
   exports: [
     CurrencySymbolComponent,
     NavbComponent,
     AddCategoryPopupComponent,
     AddTransactionPopupComponent,
-    FabComponent
+    FabComponent,
+    TransactionsDisplayComponent
   ]
 })
 export class AppCommonModule {
