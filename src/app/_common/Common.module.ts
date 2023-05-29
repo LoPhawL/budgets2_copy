@@ -34,7 +34,9 @@ import { BulkTransactionsComponent } from './bulk-transactions/bulk-transactions
     AddCategoryPopupComponent,
     AddTransactionPopupComponent,
     FabComponent,
-    TransactionsDisplayComponent
+    TransactionsDisplayComponent,
+    BulkTransactionsComponent,
+
   ]
 })
 export class AppCommonModule {

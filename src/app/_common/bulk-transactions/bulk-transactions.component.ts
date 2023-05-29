@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-bulk-transactions',
@@ -6,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./bulk-transactions.component.scss']
 })
 export class BulkTransactionsComponent {
+
+  public icon = faMoneyBillWave;
+
+  public selectedTransactionsCount: number = 0;
 
 }
