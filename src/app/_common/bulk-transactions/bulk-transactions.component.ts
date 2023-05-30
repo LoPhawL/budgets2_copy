@@ -21,8 +21,6 @@ export class BulkTransactionsComponent implements OnInit {
     this._transOpsService.transactionsSelectionChanged.subscribe(data => {
 
       this.selectedTransactionsCount = data.allSelectedTransactions.length;
-      console.log(data);
-
     })
   }
 
