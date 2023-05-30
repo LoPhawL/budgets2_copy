@@ -1,7 +1,7 @@
 <div class="row" [ngClass]="{ 'bg-light': !!order }">
   <div class="col-1">
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" (change)="selectionChanged(selectTransactionCheck.checked)" #selectTransactionCheck>
+      <input class="form-check-input" type="checkbox" (change)="selectionChanged(selectTransactionCheck.checked)" #selectTransactionCheck [checked]="selected">
     </div>
   </div>
 

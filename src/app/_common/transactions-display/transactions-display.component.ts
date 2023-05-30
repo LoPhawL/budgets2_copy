@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Timestamp } from 'firebase/firestore';
 import { ITransaction } from '../_models/ITransaction';
+import { TransactionOperationsService } from '../_services/TransactionOperations.service';
 
 @Component({
   selector: 'app-transactions-display',
@@ -8,7 +9,7 @@ import { ITransaction } from '../_models/ITransaction';
   styleUrls: ['./transactions-display.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TransactionsDisplayComponent {
+export class TransactionsDisplayComponent implements OnInit {
 
   @Input()
   public transaction: Partial<ITransaction> = {};
@@ -16,15 +17,34 @@ export class TransactionsDisplayComponent {
   @Input()
   public order: number = -1;
 
+  protected selected: boolean = false;
+
+  constructor(private _transactionOperationsService: TransactionOperationsService, private _changeDtcRef: ChangeDetectorRef) {
+
+  }
+
+  ngOnInit() {
+    this._transactionOperationsService.transactionsSelectionChanged.subscribe(
+      data => {
+        if (data.allSelectedTransactions.includes(this.transaction)) {
+          this.selected = true;
+        } else {
+          this.selected = false;
+        }
+        this._changeDtcRef.markForCheck();
+      }
+    )
+  }
+
   getDate(dt: Date | Timestamp) {
     return (dt as Timestamp).toDate()
   }
 
   selectionChanged(selected: boolean) {
     if (selected) {
-
+      this._transactionOperationsService.selectTransactions([this.transaction]);
     } else {
-
+      this._transactionOperationsService.deselectTransactions([this.transaction]);
     }
   }
 }

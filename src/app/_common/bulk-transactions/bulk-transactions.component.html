@@ -1,6 +1,12 @@
 <div
   class="text-primary"
   style="font-size: 1.3rem; padding: none; position: fixed; top: 0; right: 0; margin-top: 2vh; margin-right: 3vw; padding: 0;"
-  ngbTooltip="Click for more actions on selected transactions.">
-    <fa-icon [icon]="icon" style="font-size: 1rem;"></fa-icon>&nbsp;{{selectedTransactionsCount}}&nbsp;selected
+  >
+    <span style="cursor: pointer;" ngbTooltip="Click for more actions on selected transactions.">
+      <fa-icon [icon]="icon" style="font-size: 1rem;"></fa-icon>&nbsp;{{selectedTransactionsCount}}&nbsp;selected
+    </span>
+
+    <span ngbTooltip="Double click to clear selections">
+      <fa-icon [icon]="closeIcon" style="font-size: 1rem; margin-left: 8px;" class="text-danger" (dblclick)="clearSelectedTransactions()"></fa-icon>
+    </span>
 </div>
