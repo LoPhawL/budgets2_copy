@@ -26,12 +26,12 @@ export class TransactionsDisplayComponent implements OnInit {
   ngOnInit() {
     this._transactionOperationsService.transactionsSelectionChanged.subscribe(
       data => {
-        if (data.allSelectedTransactions.includes(this.transaction)) {
-          this.selected = true;
-        } else {
+        if (data.type === 'deselected' && !data.allSelectedTransactions.length) {
+          if (this.selected) {
+            this._changeDtcRef.markForCheck();
+          }
           this.selected = false;
         }
-        this._changeDtcRef.markForCheck();
       }
     )
   }

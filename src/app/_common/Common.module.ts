@@ -9,7 +9,8 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FabComponent } from "./fab/fab.component";
 import { TransactionsDisplayComponent } from './transactions-display/transactions-display.component';
-import { BulkTransactionsComponent } from './bulk-transactions/bulk-transactions.component';
+import { BulkTransactionsComponent } from './bulk-transactions-ops-widget/bulk-transactions.component';
+import { BulkOperationsInterfaceComponent } from './bulk-operations-interface/bulk-operations-interface.component';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { BulkTransactionsComponent } from './bulk-transactions/bulk-transactions
     AddTransactionPopupComponent,
     TransactionsDisplayComponent,
     BulkTransactionsComponent,
+    BulkOperationsInterfaceComponent,
   ],
   exports: [
     CurrencySymbolComponent,

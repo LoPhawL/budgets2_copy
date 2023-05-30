@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { faMoneyBillWave, faX } from '@fortawesome/free-solid-svg-icons';
 import { TransactionOperationsService } from '../_services/TransactionOperations.service';
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { BulkOperationsInterfaceComponent } from '../bulk-operations-interface/bulk-operations-interface.component';
 
 
 @Component({
@@ -15,7 +17,7 @@ export class BulkTransactionsComponent implements OnInit {
 
   public selectedTransactionsCount: number = 0;
 
-  constructor(private _transOpsService: TransactionOperationsService) {}
+  constructor(private _transOpsService: TransactionOperationsService, private _offCanvasService: NgbOffcanvas) {}
 
   ngOnInit() {
     this._transOpsService.transactionsSelectionChanged.subscribe(data => {
@@ -28,4 +30,7 @@ export class BulkTransactionsComponent implements OnInit {
     this._transOpsService.deselectTransactions();
   }
 
+  showBulkOpsCanvas() {
+    this._offCanvasService.open(BulkOperationsInterfaceComponent, { scroll: true, position: 'end' })
+  }
 }
