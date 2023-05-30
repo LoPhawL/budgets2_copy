@@ -158,7 +158,7 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
   submit() {
 
     const transaction: Partial<ITransaction> = {
-      note: String(this.transactionForm.get('transactionNote')?.value),
+      note: this.transactionForm.get('transactionNote')?.value || null,
       transactionType: String(this.transactionForm.get('transactionType')?.value),
       category: this.transactionForm.get('category')?.value || null,
       amount: Number(this.transactionForm.get('amount')?.value),
@@ -180,6 +180,16 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
     }
     const modifiedAccounts = this._accountsService.runTransaction(transactionTypeRulesForCalculation, transaction.amount!);
     // in a transaction, save transaction and modifiedAccounts
+
+    transaction.accountsAsModifiedByRules = [];
+
+    for (let modifiedAccount of modifiedAccounts) {
+      transaction.accountsAsModifiedByRules.push({
+        accountId: modifiedAccount.id,
+        currency: modifiedAccount.currency
+      })
+    }
+
     const batch = this._fsService.getBatch();
     this._currentBudgetService.saveTransaction(transaction, batch, this.randomizeId);
     modifiedAccounts.forEach(account => this._accountsService.saveAccount(account, batch))

@@ -1,23 +1,24 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { AccountsMap } from '../../_common/_models/Account';
-import { AccountsService } from '../../_common/_services/Accounts.service';
+import { AccountsMap } from 'src/app/_common/_models/Account';
+import { AccountsService } from 'src/app/_common/_services/Accounts.service';
+import { CurrentBudgetService } from 'src/app/_common/_services/CurrentBudget.service';
 
 @Component({
-  selector: 'app-metrics-cards-list',
-  templateUrl: './metrics-cards-list.component.html',
-  styleUrls: ['./metrics-cards-list.component.scss']
+  selector: 'app-accounts-balance-card',
+  templateUrl: './accounts-balance-card.component.html',
+  styleUrls: ['./accounts-balance-card.component.scss']
 })
-export class MetricsCardsListComponent implements OnInit, OnDestroy {
+export class AccountsBalanceCardComponent {
 
   public systemDefaultAccountBalance: number = 0;
 
   public ALL_ACCOUNT_IDS: string[] = [];
   public ALL_ACCOUNTS: AccountsMap = {};
-  
+
   private unsubscribeNotifier = new Subject();
 
-  constructor(private _accountsService: AccountsService) {
+  constructor(private _accountsService: AccountsService, private _currentBudgetService: CurrentBudgetService) {
 
   }
 
@@ -26,7 +27,7 @@ export class MetricsCardsListComponent implements OnInit, OnDestroy {
       this.systemDefaultAccountBalance = Number(accountsData.values['default']?.balance);
       this.ALL_ACCOUNTS = accountsData.values;
       this.ALL_ACCOUNT_IDS = accountsData.keys;
-    })
+    });
   }
 
   ngOnDestroy() {
@@ -34,6 +35,7 @@ export class MetricsCardsListComponent implements OnInit, OnDestroy {
   }
 
   getAccountsExceptDefault() {
-    return this.ALL_ACCOUNT_IDS.filter( accId => accId !== 'default')
+
+    return this.ALL_ACCOUNT_IDS.filter( accId => accId !== 'default');
   }
 }

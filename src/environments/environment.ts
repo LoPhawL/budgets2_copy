@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  
+
   titleSuffix: " | Dev",
 
   apiKey: "AIzaSyD7amcWHOXMwWBlhWuCYua1f61zzZAGKfA",
@@ -9,5 +9,8 @@ export const environment = {
   storageBucket: "budgets2.appspot.com",
   messagingSenderId: "831553231670",
   appId: "1:831553231670:web:24ddf858705232e24a3197",
-  measurementId: "G-S9VJX2R51C"
+  measurementId: "G-S9VJX2R51C",
+
+  crsl_interval: 1800,
+
 };

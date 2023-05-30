@@ -11,9 +11,4 @@ export class CategoryExpensesComponent {
 
   @Input()
   public consolidatedExpenses?: ConsolidatedCategory = undefined;
-
-  getDate(dt: Date | Timestamp) {
-
-    return (dt as Timestamp).toDate()
-  }
 }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExpenditureBarComponent } from './expenditure-bar.component';
+import { SecondCarouselComponent } from './second-carousel.component';
 
-describe('ExpenditureBarComponent', () => {
-  let component: ExpenditureBarComponent;
-  let fixture: ComponentFixture<ExpenditureBarComponent>;
+describe('SecondCarouselComponent', () => {
+  let component: SecondCarouselComponent;
+  let fixture: ComponentFixture<SecondCarouselComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ExpenditureBarComponent ]
+      declarations: [ SecondCarouselComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ExpenditureBarComponent);
+    fixture = TestBed.createComponent(SecondCarouselComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

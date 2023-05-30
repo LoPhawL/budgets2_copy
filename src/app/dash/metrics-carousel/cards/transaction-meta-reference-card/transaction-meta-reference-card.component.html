@@ -1,0 +1,40 @@
+<div class="card w-100">
+  <ng-template #tipContent>
+    <div class="" *ngIf="lastTransaction_transactionType">
+      <span>
+        {{lastTransaction_transactionType}} transaction for an amount of <app-currency-symbol></app-currency-symbol> {{lastTransaction?.amount}}.
+        <span *ngIf="lastTransaction?.note">
+          It was made with the note "{{lastTransaction?.note | slice:0:10 }}"
+        </span>
+        <span *ngIf="lastTransaction_category">
+          and the category "{{lastTransaction_category}}"
+        </span>
+        .
+      </span>
+    </div>
+  </ng-template>
+
+
+  <div class="card-body">
+    <h5 class="card-title">Previous update</h5>
+    <div class="" *ngIf="updatedOn">
+      <span *ngIf="updatedOn" class="card-text">Last <span class="text-primary"
+        [ngbTooltip]="tipContent">
+        transaction</span> was added at</span>
+      &nbsp;
+      <span>{{ updatedOn | date: 'MMM d, y, h:mm a' }}</span>
+    </div>
+
+    <p *ngIf="!updatedOn">We don't have a last update info right now.</p>
+    <!-- <a href="#" class="btn btn-primary">Wrap up today</a> -->
+    <div class="form-check form-switch mt-3">
+      <!-- <span *ngIf="!wrapUpToggle">Wrap up today's updates</span> -->
+      <!-- <span *ngIf="wrapUpToggle">All of today's updates were added ()</span> -->
+      <label *ngIf="!wrapUpToggle" class="form-check-label" for="flexSwitchCheckDefault">Wrap up today's updates</label>
+      <label *ngIf="wrapUpToggle" class="form-check-label" for="flexSwitchCheckDefault">All of today's updates were added ({{wrapUpUpdated | date:'h:mm a'}})</label>
+      <input class="form-check-input" type="checkbox" [(ngModel)]="wrapUpToggle" (change)="toggle()">
+    </div>
+  </div>
+
+
+</div>
