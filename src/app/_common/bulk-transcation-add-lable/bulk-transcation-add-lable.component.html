@@ -1,0 +1,22 @@
+<div class="mb-5 border border-secondary px-2 pt-2 pb-1"
+    style="height: 40vh; display: flex; flex-direction: column; justify-content: space-between; width: 94%;  margin-left: 3%; margin-right: 3%">
+
+        <div class="row px-2 py-1">
+            <div class="badge badge-pill bg-primary col mx-1 mb-1" *ngFor="let label of labels" style="max-width: min-content;">
+                <span>
+                    {{ label }}
+                </span>
+                <fa-icon [icon]="icon" class="text-danger" style="cursor: pointer; margin-left: 0.35rem;" (click)="removeLabel(label)"></fa-icon>
+            </div>
+        </div>
+            
+
+        <form (keydown.enter)="onLabelAdded($event)">
+            <input class="w-100 border-0" type="text" placeholder="Type here, one at a time and press enter..." style="outline: none;">
+        </form>
+</div>
+
+<div class="row justify-content-center" style="width: 98%;  margin-left: 1%; margin-right: 1%">
+    <button class="btn btn-outline-success col-5 mx-1" (click)="save();" [disabled]="disable">Add</button>
+    <button class="btn btn-outline-danger col-5 mx-1" (click)="cancel();" [disabled]="disable">Cancel</button>
+</div>

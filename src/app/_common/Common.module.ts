@@ -11,6 +11,7 @@ import { FabComponent } from "./fab/fab.component";
 import { TransactionsDisplayComponent } from './transactions-display/transactions-display.component';
 import { BulkTransactionsComponent } from './bulk-transactions-ops-widget/bulk-transactions.component';
 import { BulkOperationsInterfaceComponent } from './bulk-operations-interface/bulk-operations-interface.component';
+import { BulkTranscationAddLableComponent } from './bulk-transcation-add-lable/bulk-transcation-add-lable.component';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { BulkOperationsInterfaceComponent } from './bulk-operations-interface/bu
     TransactionsDisplayComponent,
     BulkTransactionsComponent,
     BulkOperationsInterfaceComponent,
+    BulkTranscationAddLableComponent,
   ],
   exports: [
     CurrencySymbolComponent,

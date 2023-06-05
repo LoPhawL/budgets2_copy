@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ITransaction } from "../_models/ITransaction";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,7 @@ import { BehaviorSubject } from "rxjs";
 export class TransactionOperationsService {
 
   private readonly _selectedTransactions: Partial<ITransaction>[] = [];
+  
 
   public transactionsSelectionChanged = new BehaviorSubject<{
     type: 'selected' | 'deselected' | 'initial',
