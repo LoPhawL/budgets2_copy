@@ -158,7 +158,7 @@ export class AddTransactionPopupComponent implements OnInit, OnDestroy {
   submit() {
 
     const transaction: Partial<ITransaction> = {
-      note: String(this.transactionForm.get('transactionNote')?.value),
+      note: this.transactionForm.get('transactionNote')?.value || null,
       transactionType: String(this.transactionForm.get('transactionType')?.value),
       category: this.transactionForm.get('category')?.value || null,
       amount: Number(this.transactionForm.get('amount')?.value),

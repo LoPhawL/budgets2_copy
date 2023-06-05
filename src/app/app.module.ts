@@ -14,7 +14,6 @@ import { SettingsModule } from './settings/Settings.module';
 @NgModule({
   declarations: [
     AppComponent,
-
   ],
   imports: [
     BrowserModule,

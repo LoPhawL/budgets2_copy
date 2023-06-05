@@ -1,0 +1,39 @@
+<div class="py-2 px-3" >
+	<div class="pt-2">
+        <h3>{{ pageTitle }} </h3>
+		<div class="mb-4">{{selectedTransactionsCount}} transcation{{selectedTransactionsCount > 1 ? 's' : ''}} selected</div>
+
+		<div *ngIf = "mode === ''">
+            
+			<div class="w-100 mb-2" style="justify-content: center; display: flex;">
+					<button
+					type="button"
+					class="btn btn-outline-primary mb-2 w-100 mx-4" 
+					placement="top"
+					(click)="addLables()">
+						Add labels
+					</button>
+			</div>
+			
+            <div class="w-100" style="justify-content: center; display: flex;">
+				<button
+					type="button"
+					class="btn btn-outline-primary mb-2 w-100 mx-4"
+					placement="bottom"
+					container="body">
+						Add to bills
+				</button>
+			</div>
+			
+		</div>
+
+        <div class="" *ngIf="mode === 'add_label'">
+            <app-bulk-transcation-add-lable [disable]="savingLabels" (onCancelled)="addLabelsCancelled();" (onAdded)="saveLabels($event);"></app-bulk-transcation-add-lable>
+        </div>
+
+		<div class="" *ngIf="mode === 'add_to_bill'">
+			Here, you can add the selected transactions to a new or existing bill.
+        </div>
+
+	</div>
+</div>

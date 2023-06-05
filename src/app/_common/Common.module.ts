@@ -8,6 +8,10 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FabComponent } from "./fab/fab.component";
+import { TransactionsDisplayComponent } from './transactions-display/transactions-display.component';
+import { BulkTransactionsComponent } from './bulk-transactions-ops-widget/bulk-transactions.component';
+import { BulkOperationsInterfaceComponent } from './bulk-operations-interface/bulk-operations-interface.component';
+import { BulkTranscationAddLableComponent } from './bulk-transcation-add-lable/bulk-transcation-add-lable.component';
 
 @NgModule({
   imports: [
@@ -23,13 +27,20 @@ import { FabComponent } from "./fab/fab.component";
     NavbComponent,
     AddCategoryPopupComponent,
     AddTransactionPopupComponent,
+    TransactionsDisplayComponent,
+    BulkTransactionsComponent,
+    BulkOperationsInterfaceComponent,
+    BulkTranscationAddLableComponent,
   ],
   exports: [
     CurrencySymbolComponent,
     NavbComponent,
     AddCategoryPopupComponent,
     AddTransactionPopupComponent,
-    FabComponent
+    FabComponent,
+    TransactionsDisplayComponent,
+    BulkTransactionsComponent,
+
   ]
 })
 export class AppCommonModule {
