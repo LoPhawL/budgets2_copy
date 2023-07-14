@@ -3,13 +3,13 @@ export const environment = {
 
     titleSuffix: "",
 
-    apiKey: "AIzaSyCHITCILpTHgVvjjEYN59eFzAzXciIb7xE",
-    authDomain: "budgets-p.firebaseapp.com",
-    projectId: "budgets-p",
-    storageBucket: "budgets-p.appspot.com",
-    messagingSenderId: "283386168745",
-    appId: "1:283386168745:web:ce3a91a5fe67a3c1e070b8",
-    measurementId: "G-4XQRP1705B",
+    apiKey: "",
+    authDomain: "****.firebaseapp.com",
+    projectId: "****",
+    storageBucket: "****.appspot.com",
+    messagingSenderId: "****168745",
+    appId: "1:2833861*****5fe67a3c1e070b8",
+    measurementId: "****705B",
 
     crsl_interval: 3000,
   };
