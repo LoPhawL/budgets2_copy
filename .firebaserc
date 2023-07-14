@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "budgets-p"
-  }
+    "default": "budgets-qa-ee0c6",
+    "qa": "budgets-qa-ee0c6"
+  },
+  "targets": {},
+  "etags": {}
 }
